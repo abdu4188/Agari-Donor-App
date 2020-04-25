@@ -92,7 +92,7 @@ class LoginState extends State<Login>{
                     color: Colors.blue,
                     onPressed: () => loginClicked(),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)
+                      borderRadius: BorderRadius.circular(25)
                     ),
                   ),
                   SizedBox(

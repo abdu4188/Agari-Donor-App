@@ -170,7 +170,7 @@ class RegisterState extends State<Register>{
                       color: Colors.blue,
                       onPressed: () => registerPressed(),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15)
+                        borderRadius: BorderRadius.circular(25)
                       ),
                     ),
                     SizedBox(

@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:agari_doner/screens/Auth/register.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +14,8 @@ class Login extends StatefulWidget{
 class LoginState extends State<Login>{
   final _loginKey = GlobalKey<FormState>();
   GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
+  TextEditingController phoneController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +37,7 @@ class LoginState extends State<Login>{
                 children: <Widget>[
                   TextFormField(
                     keyboardType: TextInputType.phone,
+                    controller: phoneController,
                     decoration: InputDecoration(
                       icon: Icon(Icons.phone),
                       labelText: "Phone number",
@@ -49,6 +55,7 @@ class LoginState extends State<Login>{
                   ),
                   TextFormField(
                     obscureText: true,
+                    controller: passwordController,
                     decoration: InputDecoration(
                       icon: Icon(Icons.lock),
                       labelText: "Password",
@@ -117,13 +124,94 @@ class LoginState extends State<Login>{
     );
   }
 
-  loginClicked(){
+  http.Response response; 
+
+  loginClicked() async {
     if(_loginKey.currentState.validate()){
-      _scaffoldkey.currentState.showSnackBar(
-        SnackBar(
-          content: Text("Form valid"),
-        )
+      try{
+        final result = await InternetAddress.lookup('google.com');
+
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty){
+
+          Map<String, String> body = {
+            'phone': phoneController.text,
+            'password': passwordController.text
+          };
+
+          response = await http.post(
+            "https://agari-api.herokuapp.com/user/signin/donor",
+            body: body
+          );
+
+
+
+          if(response.body == 'Unauthorized'){
+            showDialog(
+              context: context,
+              builder: (BuildContext context){
+                return AlertDialog(
+                  content: Text(
+                    "The phone number or password you entered are incorrect."
+                  ),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text("Close"),
+                      onPressed: () => {Navigator.of(context).pop()},
+                    )
+                  ],
+                );
+              }
+            );
+          }
+          else{
+            if(response.statusCode == 200){
+              _scaffoldkey.currentState.showSnackBar(
+                SnackBar(
+                  content: Text("Successful")
+                )
+              );
+            }
+            else{
+              showDialog(
+                context: context,
+                builder: (BuildContext context){
+                  return AlertDialog(
+                    content: Text(
+                      "Something went wrong, please try again."
+                    ),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text("Close"),
+                        onPressed: () => {
+                          Navigator.of(context).pop()
+                        },
+                      )
+                    ],
+                  );
+                }
+              );
+            }
+          }
+        }
+      }
+      on SocketException catch (_) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return AlertDialog(
+            content: Text(
+              "You are not connected. Please connect to the internet and try again!"
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Close"),
+                onPressed: () => {Navigator.of(context).pop()},
+              )
+            ],
+          );
+        }
       );
+    }
     }
   }
   

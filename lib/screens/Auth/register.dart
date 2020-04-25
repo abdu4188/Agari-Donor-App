@@ -208,7 +208,7 @@ class RegisterState extends State<Register>{
   _fieldFocusChange(BuildContext context, FocusNode currentFocus,FocusNode nextFocus) {
     currentFocus.unfocus();
     FocusScope.of(context).requestFocus(nextFocus);  
-}
+  }
 
   registerPressed() async {
     if(nameController.text.isEmpty){

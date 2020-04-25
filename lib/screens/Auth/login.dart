@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:agari_doner/screens/Auth/register.dart';
@@ -16,6 +15,8 @@ class LoginState extends State<Login>{
   GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
   TextEditingController phoneController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
+  final FocusNode _phoneNode = FocusNode();
+  final FocusNode _passwordNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +39,16 @@ class LoginState extends State<Login>{
                   TextFormField(
                     keyboardType: TextInputType.phone,
                     controller: phoneController,
+                    focusNode: _phoneNode,
+                    textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                       icon: Icon(Icons.phone),
                       labelText: "Phone number",
                       hintText: "Enter your phone number",
                     ),
+                    onFieldSubmitted: (term){
+                      _fieldFocusChange(context, _phoneNode, _passwordNode);
+                    },
                     validator: (value){
                       if(value.isEmpty){
                         return "Please enter your phone number";
@@ -56,6 +62,7 @@ class LoginState extends State<Login>{
                   TextFormField(
                     obscureText: true,
                     controller: passwordController,
+                    focusNode: _passwordNode,
                     decoration: InputDecoration(
                       icon: Icon(Icons.lock),
                       labelText: "Password",
@@ -122,6 +129,11 @@ class LoginState extends State<Login>{
         ),
       ),
     );
+  }
+
+  _fieldFocusChange(BuildContext context, FocusNode currentFocus,FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);  
   }
 
   http.Response response; 

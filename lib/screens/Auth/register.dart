@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
 
 class Register extends StatefulWidget{
   @override
@@ -178,7 +182,7 @@ class RegisterState extends State<Register>{
       ),
     );
   }
-  registerPressed(){
+  registerPressed() async {
     if(nameController.text.isEmpty){
       setState(() {
         nameError = "Please enter your name";  
@@ -258,9 +262,86 @@ class RegisterState extends State<Register>{
 
     // all inputs are correct
 
+    http.Response response = await createUser(nameController.text, phoneController.text, passwordController.text);
+
+    Map<String, dynamic> rmap= jsonDecode(response.body);
+
+    if(response.statusCode == 403){
+      showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return AlertDialog(
+            content: Text(
+              rmap['error']
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Close"),
+                onPressed: () => {Navigator.of(context).pop()},
+              )
+            ],
+          );
+        }
+      );
+    }
+    else if(response.statusCode == 200){
+      showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return AlertDialog(
+            content: Text(
+              "You have been registered sucessfully"
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Close"),
+                onPressed: () => {
+                  Navigator.of(context).pop(),
+                  Navigator.of(context).pushReplacementNamed('/login')
+                },
+              )
+            ],
+          );
+        }
+      );
+    }
+    else{
+      showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return AlertDialog(
+            content: Text(
+              "Something went wrong, please try again."
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Close"),
+                onPressed: () => {
+                  Navigator.of(context).pop()
+                },
+              )
+            ],
+          );
+        }
+      );
+    }
+
 
   }
 
   bool isDigit(String s, int idx) =>
         "0".compareTo(s[idx]) <= 0 && "9".compareTo(s[idx]) >= 0;
+
+  Future<http.Response> createUser(String name, String phone, String password){
+    Map<String, String> body = {
+      'name': name,
+      'phone': phone,
+      'password': password
+    };
+
+    return http.post(
+      "https://agari-api.herokuapp.com/user/register/donor",
+      body: body
+    );
+  }
 }

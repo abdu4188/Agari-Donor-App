@@ -1,3 +1,4 @@
+import 'package:agari_doner/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'screens/Auth/register.dart';
 import 'screens/Auth/login.dart';
@@ -18,7 +19,8 @@ class Home extends StatelessWidget {
       home: Login(),
       routes: <String, WidgetBuilder>{
       '/login': (BuildContext context) => new Login(),
-      '/register': (BuildContext context) => new Register()
+      '/register': (BuildContext context) => new Register(),
+      '/home': (BuildContext context) => new HomeScreen(),
       },
     );
   }

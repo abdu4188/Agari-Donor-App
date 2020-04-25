@@ -177,11 +177,7 @@ class LoginState extends State<Login>{
           }
           else{
             if(response.statusCode == 200){
-              _scaffoldkey.currentState.showSnackBar(
-                SnackBar(
-                  content: Text("Successful")
-                )
-              );
+              Navigator.of(context).pushReplacementNamed('/home');
             }
             else{
               showDialog(

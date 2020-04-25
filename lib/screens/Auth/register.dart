@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -17,6 +18,10 @@ class RegisterState extends State<Register>{
   TextEditingController phoneController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
   TextEditingController repasswordController = new TextEditingController();
+  final FocusNode _nameNode = FocusNode();
+  final FocusNode _phoneNode = FocusNode();
+  final FocusNode _passwordNode = FocusNode();
+  final FocusNode _rePasswordNode = FocusNode();
   var nameError;
   var phoneError;
   var passwordError;
@@ -77,12 +82,17 @@ class RegisterState extends State<Register>{
                   children: <Widget>[
                     TextFormField(
                       controller: nameController,
+                      textInputAction: TextInputAction.next,
+                      focusNode: _nameNode,
                       decoration: InputDecoration(
                         labelText: "Full name",
                         icon: Icon(Icons.person),
                         hintText: "Enter your full name",
                         errorText: nameError
                       ),
+                      onFieldSubmitted: (term){
+                        _fieldFocusChange(context, _nameNode, _phoneNode);
+                      },
                     ),
                     SizedBox(
                       height: 10,
@@ -90,12 +100,17 @@ class RegisterState extends State<Register>{
                     TextFormField(
                       controller: phoneController,
                       keyboardType: TextInputType.phone,
+                      textInputAction: TextInputAction.next,
+                      focusNode: _phoneNode,
                       decoration: InputDecoration(
                         labelText: "Phone number",
                         icon: Icon(Icons.phone),
                         hintText: "Enter your phone number",
                         errorText: phoneError
                       ),
+                      onFieldSubmitted: (term){
+                        _fieldFocusChange(context, _phoneNode, _passwordNode);
+                      },
                     ),
                     SizedBox(
                       height: 10,
@@ -103,11 +118,16 @@ class RegisterState extends State<Register>{
                     TextFormField(
                       controller: passwordController,
                       obscureText: true,
+                      textInputAction: TextInputAction.next,
+                      focusNode: _passwordNode,
                       decoration: InputDecoration(
                         labelText: "Password",
                         icon: Icon(Icons.lock),
                         hintText: "Enter password",
                       ),
+                      onFieldSubmitted: (term){
+                        _fieldFocusChange(context, _passwordNode, _rePasswordNode);
+                      },
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: 30, right: 30, top: 5),
@@ -122,8 +142,10 @@ class RegisterState extends State<Register>{
                       height: 10,
                     ),
                     TextFormField(
+                      textInputAction: TextInputAction.done,
                       controller: repasswordController,
                       obscureText: true,
+                      focusNode: _rePasswordNode,
                       decoration: InputDecoration(
                         labelText: "Reenter password",
                         icon: Icon(Icons.lock),
@@ -182,6 +204,12 @@ class RegisterState extends State<Register>{
       ),
     );
   }
+
+  _fieldFocusChange(BuildContext context, FocusNode currentFocus,FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);  
+}
+
   registerPressed() async {
     if(nameController.text.isEmpty){
       setState(() {
@@ -261,18 +289,82 @@ class RegisterState extends State<Register>{
     }
 
     // all inputs are correct
+    http.Response response; 
 
-    http.Response response = await createUser(nameController.text, phoneController.text, passwordController.text);
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        response = await createUser(nameController.text, phoneController.text, passwordController.text);
 
-    Map<String, dynamic> rmap= jsonDecode(response.body);
+        Map<String, dynamic> rmap= jsonDecode(response.body);
 
-    if(response.statusCode == 403){
+        if(response.statusCode == 403){
+          showDialog(
+            context: context,
+            builder: (BuildContext context){
+              return AlertDialog(
+                content: Text(
+                  rmap['error']
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text("Close"),
+                    onPressed: () => {Navigator.of(context).pop()},
+                  )
+                ],
+              );
+            }
+          );
+        }
+        else if(response.statusCode == 200){
+          showDialog(
+            context: context,
+            builder: (BuildContext context){
+              return AlertDialog(
+                content: Text(
+                  "You have been registered sucessfully"
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text("Close"),
+                    onPressed: () => {
+                      Navigator.of(context).pop(),
+                      Navigator.of(context).pushReplacementNamed('/login')
+                    },
+                  )
+                ],
+              );
+            }
+          );
+        }
+        else{
+          showDialog(
+            context: context,
+            builder: (BuildContext context){
+              return AlertDialog(
+                content: Text(
+                  "Something went wrong, please try again."
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text("Close"),
+                    onPressed: () => {
+                      Navigator.of(context).pop()
+                    },
+                  )
+                ],
+              );
+            }
+          );
+        }
+      }
+    } on SocketException catch (_) {
       showDialog(
         context: context,
         builder: (BuildContext context){
           return AlertDialog(
             content: Text(
-              rmap['error']
+              "You are not connected. Please connect to the internet and try again!"
             ),
             actions: <Widget>[
               FlatButton(
@@ -284,47 +376,7 @@ class RegisterState extends State<Register>{
         }
       );
     }
-    else if(response.statusCode == 200){
-      showDialog(
-        context: context,
-        builder: (BuildContext context){
-          return AlertDialog(
-            content: Text(
-              "You have been registered sucessfully"
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text("Close"),
-                onPressed: () => {
-                  Navigator.of(context).pop(),
-                  Navigator.of(context).pushReplacementNamed('/login')
-                },
-              )
-            ],
-          );
-        }
-      );
-    }
-    else{
-      showDialog(
-        context: context,
-        builder: (BuildContext context){
-          return AlertDialog(
-            content: Text(
-              "Something went wrong, please try again."
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text("Close"),
-                onPressed: () => {
-                  Navigator.of(context).pop()
-                },
-              )
-            ],
-          );
-        }
-      );
-    }
+    
 
 
   }

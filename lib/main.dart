@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'screens/Auth/register.dart';
 import 'screens/Auth/login.dart';
 
 void main() => runApp(Home());
@@ -17,6 +18,7 @@ class Home extends StatelessWidget {
       home: Login(),
       routes: <String, WidgetBuilder>{
       '/login': (BuildContext context) => new Login(),
+      '/register': (BuildContext context) => new Register()
       },
     );
   }

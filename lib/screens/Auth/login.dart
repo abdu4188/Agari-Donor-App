@@ -1,3 +1,4 @@
+import 'package:agari_doner/screens/Auth/register.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget{
@@ -23,6 +24,7 @@ class LoginState extends State<Login>{
         padding: EdgeInsets.all(30),
         color: Colors.white,
         child: ListView(
+          padding: EdgeInsets.all(10),
           children: <Widget>[
             Form(
               key: _loginKey,
@@ -41,6 +43,9 @@ class LoginState extends State<Login>{
                       }
                       return null;
                     },
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                   TextFormField(
                     obscureText: true,
@@ -63,7 +68,7 @@ class LoginState extends State<Login>{
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
-                        "LOGIN",
+                        "Login",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
@@ -95,7 +100,13 @@ class LoginState extends State<Login>{
                         fontSize: 17
                       ),
                     ),
-                    onPressed: ()=> {},
+                    onPressed: ()=> {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (BuildContext context) => Register()
+                        )
+                      )
+                    },
                   ),
                 ],
               ),

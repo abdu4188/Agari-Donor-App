@@ -19,6 +19,7 @@ class LoginState extends State<Login>{
   TextEditingController passwordController = new TextEditingController();
   final FocusNode _phoneNode = FocusNode();
   final FocusNode _passwordNode = FocusNode();
+  bool logging = false;
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +84,13 @@ class LoginState extends State<Login>{
                   RaisedButton(
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: Text(
+                      child: logging ?Padding(
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        child:  CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                        )
+                      ) :
+                      Text(
                         "Login",
                         style: TextStyle(
                           color: Colors.white,
@@ -144,6 +151,9 @@ class LoginState extends State<Login>{
   http.Response response; 
 
   loginClicked() async {
+    setState(() {
+      logging = true;
+    });
     if(_loginKey.currentState.validate()){
       try{
         final result = await InternetAddress.lookup('google.com');
@@ -163,6 +173,9 @@ class LoginState extends State<Login>{
           var jsonResponse;
 
           if(response.body == 'Unauthorized'){
+            setState(() {
+              logging = false;
+            });
             showDialog(
               context: context,
               builder: (BuildContext context){
@@ -182,6 +195,9 @@ class LoginState extends State<Login>{
           }
           else{
             if(response.statusCode == 200){
+              setState(() {
+                logging = false;
+              });
               jsonResponse = jsonDecode(response.body);
               Navigator.of(context).push(
                 MaterialPageRoute(
@@ -193,6 +209,9 @@ class LoginState extends State<Login>{
               );
             }
             else{
+              setState(() {
+                logging = false;
+              });
               showDialog(
                 context: context,
                 builder: (BuildContext context){

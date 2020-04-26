@@ -28,6 +28,7 @@ class RegisterState extends State<Register>{
   var rePasswordError;
   bool _hasCharacter = false;
   bool _hasNumber = false;
+  bool registering = false;
 
   @override
     void initState(){
@@ -159,7 +160,13 @@ class RegisterState extends State<Register>{
                     RaisedButton(
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: Text(
+                        child: registering ? Padding(
+                          padding: const EdgeInsets.only(left: 15, right: 15),
+                          child: CircularProgressIndicator(
+                            backgroundColor: Colors.white,
+                          ),
+                        ) :
+                        Text(
                           "Register",
                           style: TextStyle(
                             color: Colors.white,
@@ -292,6 +299,9 @@ class RegisterState extends State<Register>{
     }
 
     // all inputs are correct
+    setState(() {
+      registering = true;
+    });
     http.Response response; 
 
     try {
@@ -302,6 +312,9 @@ class RegisterState extends State<Register>{
         Map<String, dynamic> rmap= jsonDecode(response.body);
 
         if(response.statusCode == 403){
+          setState(() {
+            registering = false;
+          });
           showDialog(
             context: context,
             builder: (BuildContext context){
@@ -320,6 +333,9 @@ class RegisterState extends State<Register>{
           );
         }
         else if(response.statusCode == 200){
+          setState(() {
+            registering = false;
+          });
           showDialog(
             context: context,
             builder: (BuildContext context){
@@ -341,6 +357,9 @@ class RegisterState extends State<Register>{
           );
         }
         else{
+          setState(() {
+            registering = false;
+          });
           showDialog(
             context: context,
             builder: (BuildContext context){
@@ -362,6 +381,9 @@ class RegisterState extends State<Register>{
         }
       }
     } on SocketException catch (_) {
+      setState(() {
+        registering = false;
+      });
       showDialog(
         context: context,
         builder: (BuildContext context){

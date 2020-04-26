@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
+import 'package:agari_doner/screens/home.dart';
 import 'package:http/http.dart' as http;
 import 'package:agari_doner/screens/Auth/register.dart';
 import 'package:flutter/material.dart';
@@ -154,8 +156,8 @@ class LoginState extends State<Login>{
             "https://agari-api.herokuapp.com/user/signin/donor",
             body: body
           );
-
-
+          
+          var jsonResponse;
 
           if(response.body == 'Unauthorized'){
             showDialog(
@@ -177,7 +179,15 @@ class LoginState extends State<Login>{
           }
           else{
             if(response.statusCode == 200){
-              Navigator.of(context).pushReplacementNamed('/home');
+              jsonResponse = jsonDecode(response.body);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => HomeScreen(),
+                  settings: RouteSettings(
+                    arguments: jsonResponse['user']['_id']
+                  )
+                )
+              );
             }
             else{
               showDialog(

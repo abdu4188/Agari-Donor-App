@@ -180,6 +180,10 @@ class LoginState extends State<Login>{
               context: context,
               builder: (BuildContext context){
                 return AlertDialog(
+                  elevation: 20,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)
+                  ),
                   content: Text(
                     "The phone number or password you entered are incorrect."
                   ),
@@ -216,6 +220,10 @@ class LoginState extends State<Login>{
                 context: context,
                 builder: (BuildContext context){
                   return AlertDialog(
+                    elevation: 20,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)
+                    ),
                     content: Text(
                       "Something went wrong, please try again."
                     ),
@@ -239,6 +247,10 @@ class LoginState extends State<Login>{
         context: context,
         builder: (BuildContext context){
           return AlertDialog(
+            elevation: 20,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20)
+            ),
             content: Text(
               "You are not connected. Please connect to the internet and try again!"
             ),

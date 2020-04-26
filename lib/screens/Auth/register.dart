@@ -247,8 +247,8 @@ class RegisterState extends State<Register>{
       });
     }
     else{
-      if(passwordController.text.length < 8){
-        passwordError = "Password should be longer than 8 characters";
+      if(passwordController.text.length < 6){
+        passwordError = "Password should be longer than 6 characters";
       }
       else{
         setState(() {
@@ -319,6 +319,10 @@ class RegisterState extends State<Register>{
             context: context,
             builder: (BuildContext context){
               return AlertDialog(
+                elevation: 20,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)
+                ),
                 content: Text(
                   rmap['error']
                 ),
@@ -340,6 +344,10 @@ class RegisterState extends State<Register>{
             context: context,
             builder: (BuildContext context){
               return AlertDialog(
+                elevation: 20,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)
+                ),
                 content: Text(
                   "You have been registered sucessfully"
                 ),
@@ -364,6 +372,10 @@ class RegisterState extends State<Register>{
             context: context,
             builder: (BuildContext context){
               return AlertDialog(
+                elevation: 20,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)
+                ),
                 content: Text(
                   "Something went wrong, please try again."
                 ),
@@ -388,6 +400,10 @@ class RegisterState extends State<Register>{
         context: context,
         builder: (BuildContext context){
           return AlertDialog(
+            elevation: 20,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20)
+            ),
             content: Text(
               "You are not connected. Please connect to the internet and try again!"
             ),

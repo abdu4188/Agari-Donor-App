@@ -92,7 +92,10 @@ class LoginState extends State<Login>{
                       ),
                     ),
                     color: Colors.blue,
-                    onPressed: () => loginClicked(),
+                    onPressed: () => {
+                      FocusScope.of(context).requestFocus(new FocusNode()),
+                      loginClicked()
+                    },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25)
                     ),

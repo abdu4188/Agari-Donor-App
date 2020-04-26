@@ -168,7 +168,10 @@ class RegisterState extends State<Register>{
                         ),
                       ),
                       color: Colors.blue,
-                      onPressed: () => registerPressed(),
+                      onPressed: () => {
+                        FocusScope.of(context).requestFocus(new FocusNode()),
+                        registerPressed()
+                      },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25)
                       ),

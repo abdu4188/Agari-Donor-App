@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:agari_doner/components/custom_dialog.dart';
 import 'package:agari_doner/screens/home.dart';
+import 'package:agari_doner/string.dart';
+import 'package:agari_doner/test_styles.dart';
 import 'package:http/http.dart' as http;
 import 'package:agari_doner/screens/Auth/register.dart';
 import 'package:flutter/material.dart';
@@ -30,22 +33,30 @@ class LoginState extends State<Login>{
         elevation: 0,
       ),
       body: Container(
-        padding: EdgeInsets.all(30),
+        padding: EdgeInsets.only(top: 0,left: 30, right:30, bottom: 30),
         color: Colors.white,
-        child: ListView(
-          padding: EdgeInsets.all(10),
-          children: <Widget>[
-            Form(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.only(top: 0,left: 10.0,bottom: 0.0,right: 10.0),
+          child:Form(
               key: _loginKey,
               child: Column(
                 children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      Image.asset("assets/images/logo.png",height: 200.0,width:300.0,fit: BoxFit.cover,),
+                      Text(Strings.MOTTO, style: TextStyles.mottoStyle)
+                    ],
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
                   TextFormField(
                     keyboardType: TextInputType.phone,
                     controller: phoneController,
                     focusNode: _phoneNode,
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
-                      icon: Icon(Icons.phone),
+                      prefixIcon: Icon(Icons.phone),
                       labelText: "Phone number",
                       hintText: "Enter your phone number",
                     ),
@@ -67,7 +78,7 @@ class LoginState extends State<Login>{
                     controller: passwordController,
                     focusNode: _passwordNode,
                     decoration: InputDecoration(
-                      icon: Icon(Icons.lock),
+                      prefixIcon: Icon(Icons.lock),
                       labelText: "Password",
                       hintText: "Enter your password",
                     ),
@@ -137,7 +148,6 @@ class LoginState extends State<Login>{
                 ],
               ),
             )
-          ],
         ),
       ),
     );
@@ -243,27 +253,21 @@ class LoginState extends State<Login>{
         }
       }
       on SocketException catch (_) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context){
-          return AlertDialog(
-            elevation: 20,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20)
-            ),
-            content: Text(
-              "You are not connected. Please connect to the internet and try again!"
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text("Close"),
-                onPressed: () => {Navigator.of(context).pop()},
-              )
-            ],
-          );
-        }
-      );
+        setState(() {
+          logging = false;
+        });
+        showDialog(
+          context: context,
+          builder: (BuildContext context){
+            return CustomDialog(Strings.CONNECTION_ERROR, Strings.CONNECTION_DES, 0, 'assets/images/attention.png');
+          }
+        );
+      }
     }
+    else{
+      setState(() {
+        logging = false;
+      });
     }
   }
   

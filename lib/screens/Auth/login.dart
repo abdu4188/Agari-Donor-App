@@ -189,21 +189,7 @@ class LoginState extends State<Login>{
             showDialog(
               context: context,
               builder: (BuildContext context){
-                return AlertDialog(
-                  elevation: 20,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)
-                  ),
-                  content: Text(
-                    "The phone number or password you entered are incorrect."
-                  ),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text("Close"),
-                      onPressed: () => {Navigator.of(context).pop()},
-                    )
-                  ],
-                );
+                return CustomDialog(Strings.INPUT_ERROR, Strings.INVALID_CREDENTIAL, 1, 'assets/images/attention.png');
               }
             );
           }
@@ -229,23 +215,7 @@ class LoginState extends State<Login>{
               showDialog(
                 context: context,
                 builder: (BuildContext context){
-                  return AlertDialog(
-                    elevation: 20,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)
-                    ),
-                    content: Text(
-                      "Something went wrong, please try again."
-                    ),
-                    actions: <Widget>[
-                      FlatButton(
-                        child: Text("Close"),
-                        onPressed: () => {
-                          Navigator.of(context).pop()
-                        },
-                      )
-                    ],
-                  );
+                  return CustomDialog(Strings.OTHER_ERROR, Strings.OTHER_ERROR_DES, 1, 'assets/images/attention.png');
                 }
               );
             }

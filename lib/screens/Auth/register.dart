@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:agari_doner/components/custom_dialog.dart';
+import 'package:agari_doner/string.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -349,29 +351,20 @@ class RegisterState extends State<Register>{
           response = await createUser(nameController.text, phoneController.text, passwordController.text);
 
           Map<String, dynamic> rmap= jsonDecode(response.body);
-          print(response.statusCode);
 
           if(response.statusCode == 400){
+            print(response.statusCode);
             setState(() {
               registering = false;
             });
             showDialog(
               context: context,
               builder: (BuildContext context){
-                return AlertDialog(
-                  elevation: 20,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)
-                  ),
-                  content: Text(
-                    rmap['phone']
-                  ),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text("Close"),
-                      onPressed: () => {Navigator.of(context).pop()},
-                    )
-                  ],
+                return CustomDialog(
+                  Strings.INPUT_ERROR, 
+                  rmap['phone'], 
+                  1, 
+                  'assets/images/attention.png'
                 );
               }
             );
@@ -384,20 +377,11 @@ class RegisterState extends State<Register>{
             showDialog(
               context: context,
               builder: (BuildContext context){
-                return AlertDialog(
-                  elevation: 20,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)
-                  ),
-                  content: Text(
-                    rmap['error']
-                  ),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text("Close"),
-                      onPressed: () => {Navigator.of(context).pop()},
-                    )
-                  ],
+                return CustomDialog(
+                  Strings.INPUT_ERROR, 
+                  rmap['error'], 
+                  1, 
+                  'assets/images/attention.png'
                 );
               }
             );
@@ -409,23 +393,11 @@ class RegisterState extends State<Register>{
             showDialog(
               context: context,
               builder: (BuildContext context){
-                return AlertDialog(
-                  elevation: 20,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)
-                  ),
-                  content: Text(
-                    "You have been registered sucessfully"
-                  ),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text("Close"),
-                      onPressed: () => {
-                        Navigator.of(context).pop(),
-                        Navigator.of(context).pushReplacementNamed('/login')
-                      },
-                    )
-                  ],
+                return CustomRegistrationDialog(
+                  "Success", 
+                  "You have been registered sucessfully", 
+                  1, 
+                  'assets/images/attention.png'
                 );
               }
             );
@@ -465,20 +437,11 @@ class RegisterState extends State<Register>{
         showDialog(
           context: context,
           builder: (BuildContext context){
-            return AlertDialog(
-              elevation: 20,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20)
-              ),
-              content: Text(
-                "You are not connected. Please connect to the internet and try again!"
-              ),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text("Close"),
-                  onPressed: () => {Navigator.of(context).pop()},
-                )
-              ],
+            return CustomDialog(
+              Strings.INPUT_ERROR, 
+              "You are not connected. Please connect to the internet and try again!", 
+              1, 
+              'assets/images/attention.png'
             );
           }
         );

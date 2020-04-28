@@ -29,6 +29,7 @@ class RegisterState extends State<Register>{
   bool _hasCharacter = false;
   bool _hasNumber = false;
   bool registering = false;
+  bool allCorrect = false;
 
   @override
     void initState(){
@@ -43,199 +44,206 @@ class RegisterState extends State<Register>{
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldkey,
-      body: ListView(
+      body: Stack(
         children: <Widget>[
-          Row(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(bottom: 120),
-                child: IconButton(
-                  icon: Icon(Icons.arrow_back),
-                  iconSize: 35,
-                  color: Colors.blue,
-                  onPressed: () =>{
-                    Navigator.of(context).pop()
-                  },
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 48),
-                child: Image.asset("assets/images/logo.png",height: 200.0,width:220.0,fit: BoxFit.cover,),
-              ),
-            ],
+          Positioned(
+            bottom: -133,
+            left: -205,
+            height:300.0,
+            width:430.0,
+            child: Image.asset('assets/images/stripes.png')
           ),
-          Padding(
-            padding: const EdgeInsets.all(30.0),
-            child: Column(
-              children: <Widget>[
-                Text(
-                  "Let's Get Started!",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600
-                  ),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  "Create an account to start donating and help others",
-                  style: TextStyle(
-                    fontSize: 11,
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Form(
-                  child: Column(
-                    children: <Widget>[
-                      TextFormField(
-                        controller: nameController,
-                        textInputAction: TextInputAction.next,
-                        focusNode: _nameNode,
-                        decoration: InputDecoration(
-                          labelText: "Full name",
-                          prefixIcon: Icon(Icons.person),
-                          hintText: "Enter your full name",
-                          errorText: nameError
-                        ),
-                        onFieldSubmitted: (term){
-                          _fieldFocusChange(context, _nameNode, _phoneNode);
-                        },
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        controller: phoneController,
-                        keyboardType: TextInputType.phone,
-                        textInputAction: TextInputAction.next,
-                        focusNode: _phoneNode,
-                        decoration: InputDecoration(
-                          labelText: "Phone number",
-                          prefixIcon: Icon(Icons.phone),
-                          hintText: "Enter your phone number",
-                          errorText: phoneError
-                        ),
-                        onFieldSubmitted: (term){
-                          _fieldFocusChange(context, _phoneNode, _passwordNode);
-                        },
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        controller: passwordController,
-                        obscureText: true,
-                        textInputAction: TextInputAction.next,
-                        focusNode: _passwordNode,
-                        decoration: InputDecoration(
-                          labelText: "Password",
-                          prefixIcon: Icon(Icons.lock),
-                          hintText: "Enter password",
-                        ),
-                        onFieldSubmitted: (term){
-                          _fieldFocusChange(context, _passwordNode, _rePasswordNode);
-                        },
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 30, right: 30, top: 5),
-                        child: Text(
-                          passwordError,
-                          style: TextStyle(
-                            color: Colors.red
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        textInputAction: TextInputAction.done,
-                        controller: repasswordController,
-                        obscureText: true,
-                        focusNode: _rePasswordNode,
-                        decoration: InputDecoration(
-                          labelText: "Reenter password",
-                          prefixIcon: Icon(Icons.lock),
-                          hintText: "Reenter password",
-                          errorText: rePasswordError
-                        ),
-                      ),
-                      SizedBox(
-                        height: 0,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Stack(
+          ListView(
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 95),
-                child: RaisedButton(
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: registering ? Padding(
-                      padding: const EdgeInsets.only(left: 15, right: 15),
-                      child: CircularProgressIndicator(
-                        backgroundColor: Colors.white,
-                      ),
-                    ) :
-                    Text(
-                      "Register",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                      ),
+              Row(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 120),
+                    child: IconButton(
+                      icon: Icon(Icons.arrow_back),
+                      iconSize: 35,
+                      color: Colors.blue,
+                      onPressed: () =>{
+                        Navigator.of(context).pop()
+                      },
                     ),
                   ),
-                  color: Colors.blue,
-                  onPressed: () => {
-                    FocusScope.of(context).requestFocus(new FocusNode()),
-                    registerPressed()
-                  },
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25)
+                  Padding(
+                    padding: EdgeInsets.only(left: 48),
+                    child: Image.asset("assets/images/logo.png",height: 200.0,width:220.0,fit: BoxFit.cover,),
                   ),
-                ),
+                ],
               ),
               Padding(
-                padding: const EdgeInsets.only(right: 0, top: 25),
-                child: Image.asset("assets/images/stripes.png",height: 240.0,width:130.0,fit: BoxFit.cover,),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 80, top: 100),
+                padding: const EdgeInsets.all(30.0),
                 child: Column(
                   children: <Widget>[
                     Text(
-                      "Have an account already",
+                      "Let's Get Started!",
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 20,
                         fontWeight: FontWeight.w600
                       ),
                     ),
-                    FlatButton(
-                      child: Text(
-                        "Login here",
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 18
-                        ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      "Create an account to start donating and help others",
+                      style: TextStyle(
+                        fontSize: 11,
                       ),
-                      onPressed: () => {
-                        Navigator.of(context).pop()
-                      },
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Form(
+                      child: Column(
+                        children: <Widget>[
+                          TextFormField(
+                            controller: nameController,
+                            textInputAction: TextInputAction.next,
+                            focusNode: _nameNode,
+                            decoration: InputDecoration(
+                              labelText: "Full name",
+                              prefixIcon: Icon(Icons.person),
+                              hintText: "Enter your full name",
+                              errorText: nameError
+                            ),
+                            onFieldSubmitted: (term){
+                              _fieldFocusChange(context, _nameNode, _phoneNode);
+                            },
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            controller: phoneController,
+                            keyboardType: TextInputType.phone,
+                            textInputAction: TextInputAction.next,
+                            focusNode: _phoneNode,
+                            decoration: InputDecoration(
+                              labelText: "Phone number",
+                              prefixIcon: Icon(Icons.phone),
+                              hintText: "Enter your phone number",
+                              errorText: phoneError
+                            ),
+                            onFieldSubmitted: (term){
+                              _fieldFocusChange(context, _phoneNode, _passwordNode);
+                            },
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            controller: passwordController,
+                            obscureText: true,
+                            textInputAction: TextInputAction.next,
+                            focusNode: _passwordNode,
+                            decoration: InputDecoration(
+                              labelText: "Password",
+                              prefixIcon: Icon(Icons.lock),
+                              hintText: "Enter password",
+                            ),
+                            onFieldSubmitted: (term){
+                              _fieldFocusChange(context, _passwordNode, _rePasswordNode);
+                            },
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 30, right: 30, top: 5),
+                            child: Text(
+                              passwordError,
+                              style: TextStyle(
+                                color: Colors.red
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            textInputAction: TextInputAction.done,
+                            controller: repasswordController,
+                            obscureText: true,
+                            focusNode: _rePasswordNode,
+                            decoration: InputDecoration(
+                              labelText: "Reenter password",
+                              prefixIcon: Icon(Icons.lock),
+                              hintText: "Reenter password",
+                              errorText: rePasswordError
+                            ),
+                          ),
+                          SizedBox(
+                            height: 0,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
+              Stack(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(left: 95),
+                    child: RaisedButton(
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: registering ? Padding(
+                          padding: const EdgeInsets.only(left: 15, right: 15),
+                          child: CircularProgressIndicator(
+                            backgroundColor: Colors.white,
+                          ),
+                        ) :
+                        Text(
+                          "Register",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                      color: Colors.blue,
+                      onPressed: () => {
+                        FocusScope.of(context).requestFocus(new FocusNode()),
+                        registerPressed()
+                      },
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25)
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 80, top: 100),
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          "Have an account already",
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600
+                          ),
+                        ),
+                        FlatButton(
+                          child: Text(
+                            "Login here",
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontSize: 18
+                            ),
+                          ),
+                          onPressed: () => {
+                            Navigator.of(context).pop()
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),      
             ],
-          ),      
-        ],
+          ),
+        ]
       ),
     );
   }
@@ -249,6 +257,7 @@ class RegisterState extends State<Register>{
     if(nameController.text.isEmpty){
       setState(() {
         nameError = "Please enter your name";  
+        registering = false;
       });
     }
     else{
@@ -323,124 +332,157 @@ class RegisterState extends State<Register>{
       });
     }
 
+    if(nameController.text.isNotEmpty && phoneController.text.isNotEmpty && passwordController.text.isNotEmpty && passwordController.text.length > 6 && _hasCharacter && _hasNumber && passwordController.text == repasswordController.text){
+      allCorrect = true;
+    }
+
     // all inputs are correct
-    setState(() {
-      registering = true;
-    });
-    http.Response response; 
-
-    try {
-      final result = await InternetAddress.lookup('google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        response = await createUser(nameController.text, phoneController.text, passwordController.text);
-
-        Map<String, dynamic> rmap= jsonDecode(response.body);
-
-        if(response.statusCode == 403){
-          setState(() {
-            registering = false;
-          });
-          showDialog(
-            context: context,
-            builder: (BuildContext context){
-              return AlertDialog(
-                elevation: 20,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)
-                ),
-                content: Text(
-                  rmap['error']
-                ),
-                actions: <Widget>[
-                  FlatButton(
-                    child: Text("Close"),
-                    onPressed: () => {Navigator.of(context).pop()},
-                  )
-                ],
-              );
-            }
-          );
-        }
-        else if(response.statusCode == 200){
-          setState(() {
-            registering = false;
-          });
-          showDialog(
-            context: context,
-            builder: (BuildContext context){
-              return AlertDialog(
-                elevation: 20,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)
-                ),
-                content: Text(
-                  "You have been registered sucessfully"
-                ),
-                actions: <Widget>[
-                  FlatButton(
-                    child: Text("Close"),
-                    onPressed: () => {
-                      Navigator.of(context).pop(),
-                      Navigator.of(context).pushReplacementNamed('/login')
-                    },
-                  )
-                ],
-              );
-            }
-          );
-        }
-        else{
-          setState(() {
-            registering = false;
-          });
-          showDialog(
-            context: context,
-            builder: (BuildContext context){
-              return AlertDialog(
-                elevation: 20,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)
-                ),
-                content: Text(
-                  "Something went wrong, please try again."
-                ),
-                actions: <Widget>[
-                  FlatButton(
-                    child: Text("Close"),
-                    onPressed: () => {
-                      Navigator.of(context).pop()
-                    },
-                  )
-                ],
-              );
-            }
-          );
-        }
-      }
-    } on SocketException catch (_) {
+    if(allCorrect){
       setState(() {
-        registering = false;
+        registering = true;
       });
-      showDialog(
-        context: context,
-        builder: (BuildContext context){
-          return AlertDialog(
-            elevation: 20,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20)
-            ),
-            content: Text(
-              "You are not connected. Please connect to the internet and try again!"
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text("Close"),
-                onPressed: () => {Navigator.of(context).pop()},
-              )
-            ],
-          );
+      http.Response response; 
+
+      try {
+        final result = await InternetAddress.lookup('google.com');
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+          response = await createUser(nameController.text, phoneController.text, passwordController.text);
+
+          Map<String, dynamic> rmap= jsonDecode(response.body);
+          print(response.statusCode);
+
+          if(response.statusCode == 400){
+            setState(() {
+              registering = false;
+            });
+            showDialog(
+              context: context,
+              builder: (BuildContext context){
+                return AlertDialog(
+                  elevation: 20,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)
+                  ),
+                  content: Text(
+                    rmap['phone']
+                  ),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text("Close"),
+                      onPressed: () => {Navigator.of(context).pop()},
+                    )
+                  ],
+                );
+              }
+            );
+          }
+
+          else if(response.statusCode == 403){
+            setState(() {
+              registering = false;
+            });
+            showDialog(
+              context: context,
+              builder: (BuildContext context){
+                return AlertDialog(
+                  elevation: 20,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)
+                  ),
+                  content: Text(
+                    rmap['error']
+                  ),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text("Close"),
+                      onPressed: () => {Navigator.of(context).pop()},
+                    )
+                  ],
+                );
+              }
+            );
+          }
+          else if(response.statusCode == 200){
+            setState(() {
+              registering = false;
+            });
+            showDialog(
+              context: context,
+              builder: (BuildContext context){
+                return AlertDialog(
+                  elevation: 20,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)
+                  ),
+                  content: Text(
+                    "You have been registered sucessfully"
+                  ),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text("Close"),
+                      onPressed: () => {
+                        Navigator.of(context).pop(),
+                        Navigator.of(context).pushReplacementNamed('/login')
+                      },
+                    )
+                  ],
+                );
+              }
+            );
+          }
+          else{
+            setState(() {
+              registering = false;
+            });
+            showDialog(
+              context: context,
+              builder: (BuildContext context){
+                return AlertDialog(
+                  elevation: 20,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)
+                  ),
+                  content: Text(
+                    "Something went wrong, please try again."
+                  ),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text("Close"),
+                      onPressed: () => {
+                        Navigator.of(context).pop()
+                      },
+                    )
+                  ],
+                );
+              }
+            );
+          }
         }
-      );
+      } on SocketException catch (_) {
+        setState(() {
+          registering = false;
+        });
+        showDialog(
+          context: context,
+          builder: (BuildContext context){
+            return AlertDialog(
+              elevation: 20,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20)
+              ),
+              content: Text(
+                "You are not connected. Please connect to the internet and try again!"
+              ),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text("Close"),
+                  onPressed: () => {Navigator.of(context).pop()},
+                )
+              ],
+            );
+          }
+        );
+      }
     }
     
 

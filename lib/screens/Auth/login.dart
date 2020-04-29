@@ -7,6 +7,7 @@ import 'package:agari_doner/test_styles.dart';
 import 'package:http/http.dart' as http;
 import 'package:agari_doner/screens/Auth/register.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget{
   @override
@@ -195,10 +196,12 @@ class LoginState extends State<Login>{
           }
           else{
             if(response.statusCode == 200){
+              print(response.body);
               setState(() {
                 logging = false;
               });
               jsonResponse = jsonDecode(response.body);
+              addTokenToSF(jsonResponse['token']);
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => HomeScreen(),
@@ -209,6 +212,7 @@ class LoginState extends State<Login>{
               );
             }
             else{
+              print(response.body);
               setState(() {
                 logging = false;
               });
@@ -239,6 +243,10 @@ class LoginState extends State<Login>{
         logging = false;
       });
     }
+  }
+  addTokenToSF(String token) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('token', token);
   }
   
 }

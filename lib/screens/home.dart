@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget{
   @override
@@ -25,8 +26,19 @@ class HomeState extends State<HomeScreen>{
   Position _currentPosition;
   @override
   void initState() {
-    checkGeoPermission();
+    checkLogin();
     super.initState();
+  }
+
+  checkLogin() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool token = prefs.containsKey('token');
+    if(!token){
+      Navigator.of(context).pushReplacementNamed('/login');
+    }
+    else{
+      checkGeoPermission();
+    }
   }
 
   String userId;

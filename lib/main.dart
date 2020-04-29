@@ -16,7 +16,7 @@ class Home extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue
       ),
-      home: Login(),
+      home: HomeScreen(),
       routes: <String, WidgetBuilder>{
       '/login': (BuildContext context) => new Login(),
       '/register': (BuildContext context) => new Register(),

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:agari_doner/components/custom_dialog.dart';
 import 'package:agari_doner/string.dart';
 import 'package:flutter/material.dart';
@@ -46,37 +45,30 @@ class RegisterState extends State<Register>{
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldkey,
-      body: Stack(
-        children: <Widget>[
-          Positioned(
-            bottom: -133,
-            left: -205,
-            height:300.0,
-            width:430.0,
-            child: Image.asset('assets/images/stripes.png')
-          ),
-          ListView(
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 120),
-                    child: IconButton(
-                      icon: Icon(Icons.arrow_back),
-                      iconSize: 35,
-                      color: Colors.blue,
-                      onPressed: () =>{
-                        Navigator.of(context).pop()
-                      },
-                    ),
+      body: Align(
+        widthFactor: double.infinity,
+        child: ListView(
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 100),
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    iconSize: 35,
+                    color: Colors.blue,
+                    onPressed: () =>{
+                      Navigator.of(context).pop()
+                    },
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 48),
-                    child: Image.asset("assets/images/logo.png",height: 200.0,width:220.0,fit: BoxFit.cover,),
-                  ),
-                ],
-              ),
-              Padding(
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 48),
+                  child: Image.asset("assets/images/logo.png",height: 200.0,width:220.0,fit: BoxFit.cover,),
+                ),
+              ],
+            ),
+            Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: Column(
                   children: <Widget>[
@@ -184,39 +176,59 @@ class RegisterState extends State<Register>{
                   ],
                 ),
               ),
-              Stack(
+            Column( 
+              children: <Widget>[
+                RaisedButton(
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: registering ? Padding(
+                    padding: const EdgeInsets.only(left: 15, right: 15),
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.white,
+                    ),
+                  ) :
+                  Text(
+                    "Register",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+                color: Colors.blue,
+                onPressed: () => {
+                  FocusScope.of(context).requestFocus(new FocusNode()),
+                  registerPressed()
+                },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25)
+                ),
+              ),
+              ]
+            ),                 
+            Container(
+              // color: Colors.blue,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(left: 95),
-                    child: RaisedButton(
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: registering ? Padding(
-                          padding: const EdgeInsets.only(left: 15, right: 15),
-                          child: CircularProgressIndicator(
-                            backgroundColor: Colors.white,
-                          ),
-                        ) :
-                        Text(
-                          "Register",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                          ),
-                        ),
+                  Container(
+                    color: Colors.blue,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 0),
+                      child: Image(
+                        alignment: Alignment.centerRight,
+                        width: 150,
+                        height: 150,
+                        image: AssetImage(
+                        'assets/images/stripes.png',
+                        // width: 150,
+                        // height: 200,
                       ),
-                      color: Colors.blue,
-                      onPressed: () => {
-                        FocusScope.of(context).requestFocus(new FocusNode()),
-                        registerPressed()
-                      },
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25)
-                      ),
+                      )
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 80, top: 100),
+                    padding: const EdgeInsets.only(left: 0, top: 40, right: 0, bottom: 20),
                     child: Column(
                       children: <Widget>[
                         Text(
@@ -242,10 +254,10 @@ class RegisterState extends State<Register>{
                     ),
                   ),
                 ],
-              ),      
-            ],
-          ),
-        ]
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -256,6 +268,7 @@ class RegisterState extends State<Register>{
   }
 
   registerPressed() async {
+    print("here");
     if(nameController.text.isEmpty){
       setState(() {
         nameError = "Please enter your name";  
@@ -334,7 +347,8 @@ class RegisterState extends State<Register>{
       });
     }
 
-    if(nameController.text.isNotEmpty && phoneController.text.isNotEmpty && passwordController.text.isNotEmpty && passwordController.text.length > 6 && _hasCharacter && _hasNumber && passwordController.text == repasswordController.text){
+    if(nameController.text.isNotEmpty && phoneController.text.isNotEmpty && passwordController.text.isNotEmpty && passwordController.text.length >= 6 && _hasCharacter && _hasNumber && passwordController.text == repasswordController.text){
+      print("all true");
       allCorrect = true;
     }
 

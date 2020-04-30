@@ -184,6 +184,7 @@ class LoginState extends State<Login>{
           var jsonResponse;
 
           if(response.body == 'Unauthorized'){
+            print(response.statusCode);
             setState(() {
               logging = false;
             });

@@ -207,26 +207,9 @@ class RegisterState extends State<Register>{
               ]
             ),                 
             Container(
-              // color: Colors.blue,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Container(
-                    color: Colors.blue,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 0),
-                      child: Image(
-                        alignment: Alignment.centerRight,
-                        width: 150,
-                        height: 150,
-                        image: AssetImage(
-                        'assets/images/stripes.png',
-                        // width: 150,
-                        // height: 200,
-                      ),
-                      )
-                    ),
-                  ),
                   Padding(
                     padding: const EdgeInsets.only(left: 0, top: 40, right: 0, bottom: 20),
                     child: Column(

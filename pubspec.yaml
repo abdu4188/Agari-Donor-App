@@ -49,6 +49,9 @@ flutter:
    - assets/images/logo.png
    - assets/images/attention.png
    - assets/images/stripes.png
+   - assets/images/header.jpg
+   - assets/images/flour.jpg
+   - assets/images/oil.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

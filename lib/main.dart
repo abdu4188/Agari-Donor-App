@@ -6,15 +6,28 @@ import 'screens/Auth/login.dart';
 void main() => runApp(Home());
 
 final navigatorKey = GlobalKey<NavigatorState>();
-
+Map<int, Color> color =
+{
+50:Color(int.parse('0xff3fa1a9')),
+100:Color(int.parse('0xff3fa1a9')),
+200:Color(int.parse('0xff3fa1a9')),
+300:Color(int.parse('0xff3fa1a9')),
+400:Color(int.parse('0xff3fa1a9')),
+500:Color(int.parse('0xff3fa1a9')),
+600:Color(int.parse('0xff3fa1a9')),
+700:Color(int.parse('0xff3fa1a9')),
+800:Color(int.parse('0xff3fa1a9')),
+900:Color(int.parse('0xff3fa1a9'))
+};
 class Home extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: navigatorKey,
       title: 'Agari Donor',
       theme: ThemeData(
-        primarySwatch: Colors.blue
+        primarySwatch: MaterialColor(0xff3fa1a9, color)
       ),
       home: HomeScreen(),
       routes: <String, WidgetBuilder>{

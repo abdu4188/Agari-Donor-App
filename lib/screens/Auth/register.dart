@@ -195,7 +195,7 @@ class RegisterState extends State<Register>{
                     ),
                   ),
                 ),
-                color: Colors.blue,
+                color: Color(int.parse('0xff3fa1a9')),
                 onPressed: () => {
                   FocusScope.of(context).requestFocus(new FocusNode()),
                   registerPressed()

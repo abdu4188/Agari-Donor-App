@@ -46,7 +46,7 @@ class HomeState extends State<HomeScreen>{
 
         var jsonResponse = jsonDecode(response.body);
 
-        if(jsonResponse['location']['lat'] == null){
+        if(jsonResponse['location'] == null){
           checkGeoPermission();
         }
       }
@@ -128,6 +128,52 @@ class HomeState extends State<HomeScreen>{
     userId = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       body: Text("home"),
+      bottomNavigationBar: ClipRRect(
+          borderRadius: BorderRadius.only(
+          topRight: Radius.circular(40),
+          topLeft: Radius.circular(40),
+        ),
+        child: BottomNavigationBar(
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          backgroundColor: Color(int.parse('0xff00838f')),
+          type: BottomNavigationBarType.fixed,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+                size: 30,
+                color: Colors.white,
+              ),
+              title: Text(""),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.add,
+                size: 30,
+                color: Colors.white,
+              ),
+              title: Text(""),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person,
+                size: 30,
+                color: Colors.white,
+              ),
+              title: Text(""),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.help,
+                size: 30,
+                color: Colors.white,
+              ),
+              title: Text(""),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

@@ -6,7 +6,7 @@ class TextStyles {
   static final TextStyle mottoStyle = TextStyle(
       fontSize: 14.0,
       fontWeight: FontWeight.w400,
-      color: Colors.blue
+      color: Color(int.parse('0xff3fa1a9'))
 
   );
   static final TextStyle logoStyle = TextStyle(

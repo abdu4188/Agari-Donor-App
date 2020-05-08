@@ -28,10 +28,9 @@ class HomeState extends State<HomeScreen>{
   @override
   void initState() {
     checkLogin();
-    // checkGeoPermission();
     super.initState();
   }
-
+  
   checkIfLocationSent(token) async{
     try{
       final result = await InternetAddress.lookup('google.com');

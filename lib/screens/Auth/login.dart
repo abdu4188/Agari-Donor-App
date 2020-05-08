@@ -110,7 +110,7 @@ class LoginState extends State<Login>{
                         ),
                       ),
                     ),
-                    color: Colors.blue,
+                    color: Color(int.parse('0xff3fa1a9')),
                     onPressed: () => {
                       FocusScope.of(context).requestFocus(new FocusNode()),
                       loginClicked()
@@ -134,7 +134,7 @@ class LoginState extends State<Login>{
                     child: Text(
                       "Create an account",
                       style: TextStyle(
-                        color: Colors.blue,
+                        color: Color(int.parse('0xff3fa1a9')),
                         fontSize: 17
                       ),
                     ),

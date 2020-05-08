@@ -211,7 +211,7 @@ class RegisterState extends State<Register>{
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(left: 0, top: 40, right: 0, bottom: 20),
+                    padding: const EdgeInsets.only(left: 80, top: 40, right: 0, bottom: 20),
                     child: Column(
                       children: <Widget>[
                         Text(
@@ -225,7 +225,7 @@ class RegisterState extends State<Register>{
                           child: Text(
                             "Login here",
                             style: TextStyle(
-                              color: Colors.blue,
+                              color: Color(int.parse('0xff3fa1a9')),
                               fontSize: 18
                             ),
                           ),

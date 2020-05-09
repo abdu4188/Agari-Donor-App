@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:agari_doner/components/bottom_nav.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -282,52 +283,7 @@ class HomeState extends State<HomeScreen>{
           ),
         ],
       ),
-      bottomNavigationBar: ClipRRect(
-          borderRadius: BorderRadius.only(
-          topRight: Radius.circular(40),
-          topLeft: Radius.circular(40),
-        ),
-        child: BottomNavigationBar(
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          backgroundColor: Color(int.parse('0xff00838f')),
-          type: BottomNavigationBarType.fixed,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home,
-                size: 30,
-                color: Colors.white,
-              ),
-              title: Text(""),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.add,
-                size: 30,
-                color: Colors.white,
-              ),
-              title: Text(""),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.person,
-                size: 30,
-                color: Colors.white,
-              ),
-              title: Text(""),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.help,
-                size: 30,
-                color: Colors.white,
-              ),
-              title: Text(""),
-            ),
-          ],
-        ),
-      ),
+      bottomNavigationBar: BottomNav()
     );
   }
 

@@ -53,6 +53,9 @@ flutter:
    - assets/images/flour.jpg
    - assets/images/oil.jpg
    - assets/images/qr.png
+   - assets/images/amole.jpg
+   - assets/images/cbe.png
+   - assets/images/hellocash.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

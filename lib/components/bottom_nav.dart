@@ -13,11 +13,14 @@ class BottomNavState extends State<BottomNav>{
     if(index == 0){
       Navigator.of(context).pushNamed('/home');
     }
-    if(index == 1){
+    else if(index == 1){
       Navigator.of(context).pushNamed('/comfirm_donation');
     }
-    if(index == 2){
+    else if(index == 2){
       Navigator.of(context).pushNamed('/donation_history');
+    }
+    else if(index == 3){
+      Navigator.of(context).pushNamed('/payment_option');
     }
   }
 

@@ -2,6 +2,7 @@ import 'package:agari_doner/screens/donation_confirmation.dart';
 import 'package:agari_doner/screens/donation_history.dart';
 import 'package:agari_doner/screens/home.dart';
 import 'package:agari_doner/screens/package_detail.dart';
+import 'package:agari_doner/screens/payment_option.dart';
 import 'package:flutter/material.dart';
 import 'screens/Auth/register.dart';
 import 'screens/Auth/login.dart';
@@ -40,6 +41,7 @@ class Home extends StatelessWidget {
       '/package_detail': (BuildContext context) => new PackageDetail(),
       '/donation_history': (BuildContext context) => new DonationHistory(),
       '/comfirm_donation': (BuildContext context) => new DonationConfirmation(),
+      '/payment_option': (BuildContext context) => new PaymentOption(),
       },
     );
   }

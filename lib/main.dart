@@ -1,3 +1,4 @@
+import 'package:agari_doner/screens/donation_confirmation.dart';
 import 'package:agari_doner/screens/donation_history.dart';
 import 'package:agari_doner/screens/home.dart';
 import 'package:agari_doner/screens/package_detail.dart';
@@ -38,6 +39,7 @@ class Home extends StatelessWidget {
       '/home': (BuildContext context) => new HomeScreen(),
       '/package_detail': (BuildContext context) => new PackageDetail(),
       '/donation_history': (BuildContext context) => new DonationHistory(),
+      '/comfirm_donation': (BuildContext context) => new DonationConfirmation(),
       },
     );
   }

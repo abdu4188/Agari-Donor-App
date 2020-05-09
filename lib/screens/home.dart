@@ -158,7 +158,7 @@ class HomeState extends State<HomeScreen>{
                   left: 0,
                   child: Container(
                     margin: EdgeInsets.symmetric(vertical: 20.0),
-                    height: 230.0,
+                    height: 245.0,
                     child: ListView.separated(
                       padding: EdgeInsets.only(left: 20, right: 20),
                       shrinkWrap: true,
@@ -189,7 +189,7 @@ class HomeState extends State<HomeScreen>{
                                   top: 20,
                                   child: SizedBox(
                                     width: 200,
-                                    height: 200,
+                                    height: 230,
                                     child: Card(
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(15)
@@ -249,6 +249,26 @@ class HomeState extends State<HomeScreen>{
                                     height: 100,
                                   ),
                                 ),
+                                Positioned(
+                                  top: 190,
+                                  left: 60,
+                                  child: RaisedButton(
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18)
+                                  ),
+                                  color:  Color(int.parse('0xff3fa1a9')),
+                                  child: Text(
+                                    "Donate",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20
+                                    ),
+                                  ),
+                                  onPressed: () => {
+                                  },
+                                ),
+                                )
                               ],
                             ),
                           ),

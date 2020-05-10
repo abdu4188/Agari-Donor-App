@@ -268,6 +268,7 @@ class HomeState extends State<HomeScreen>{
                                     ),
                                   ),
                                   onPressed: () => {
+                                    Navigator.of(context).pushNamed('/package_detail')
                                   },
                                 ),
                                 )

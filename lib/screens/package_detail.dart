@@ -1,4 +1,3 @@
-import 'package:agari_doner/components/bottom_nav.dart';
 import 'package:flutter/material.dart';
 
 class PackageDetail extends StatefulWidget{
@@ -249,7 +248,6 @@ class PackageDetailState extends State<PackageDetail>{
           )
         ],
       ),
-      bottomNavigationBar: BottomNav(1)
     );
   }
 }

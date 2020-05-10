@@ -114,7 +114,7 @@ class HomeState extends State<HomeScreen>{
   checkLogin() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool tokenCheck = prefs.containsKey('token');
-    if(tokenCheck){
+    if(!tokenCheck){
       Navigator.of(context).pushReplacementNamed('/login');
     }
     else{
@@ -129,162 +129,167 @@ class HomeState extends State<HomeScreen>{
   Widget build(BuildContext context) {
     userId = ModalRoute.of(context).settings.arguments;
     return Scaffold(
-      body: Column(
+      body: PageView(
         children: <Widget>[
-          Expanded(
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(left: 10, right: 10, top: 30),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.asset("assets/images/header.jpg")
-                  )
-                ),
-                Positioned(
-                  top: 100,
-                  right: 150,
-                  child: Text('''
-                  Donation
-                  Packages''',
-                  style: TextStyle(
-                    color:  Colors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold
-                  ),
-                  )
-                ),
-                Positioned(
-                  top: 180,
-                  right: 0,
-                  left: 0,
-                  child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 20.0),
-                    height: 245.0,
-                    child: ListView.separated(
-                      padding: EdgeInsets.only(left: 20, right: 20),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 3,
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          width: 10,
-                        );
-                      },
-                      itemBuilder: (BuildContext context, int index){
-                        return GestureDetector(
-                          onTap: () => {
-                            Navigator.of(context).pushNamed('/package_detail')
-                          },
-                          child: Container(
-                            width: 250,
-                            child: Stack(
-                              children: <Widget>[
-                                Text(
-                                  "Standard",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 23,
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 20,
-                                  child: SizedBox(
-                                    width: 200,
-                                    height: 230,
-                                    child: Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15)
-                                      ),
-                                      color: Color(int.parse('0xff00838f')),
-                                      child: Stack(
-                                        children: <Widget>[
-                                          Container(
-                                            padding: EdgeInsets.all(17),
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Colors.white
-                                            ),
-                                            child: Text(
-                                              "200 birr",
-                                              style: TextStyle(
-                                                color: Colors.green
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  bottom: 0,
-                                  right: 50,
-                                  child: Container(
-                                    margin: EdgeInsets.all(100),
-                                    height: 50,
-                                    child: Text('''
-                                    2 liter veg oil
-                                    3 kilo rice
-                                    2 kilo flour''',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  left: 150,
-                                  child: Image.asset(
-                                    'assets/images/flour.jpg',
-                                    width: 100,
-                                    height: 200,
-                                  ),
-                                ),
-                                Positioned(
-                                  left: 120,
-                                  top: 80,
-                                  child: Image.asset(
-                                    'assets/images/oil.jpg',
-                                    width: 70,
-                                    height: 100,
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 190,
-                                  left: 60,
-                                  child: RaisedButton(
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18)
-                                  ),
-                                  color:  Color(int.parse('0xff3fa1a9')),
-                                  child: Text(
-                                    "Donate",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20
-                                    ),
-                                  ),
-                                  onPressed: () => {
-                                  },
-                                ),
-                                )
-                              ],
-                            ),
-                          ),
-                        );                      
-                      }, 
+          Column(
+            children: <Widget>[
+              Expanded(
+                child: Stack(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(left: 10, right: 10, top: 30),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.asset("assets/images/header.jpg")
+                      )
                     ),
-                  ),
+                    Positioned(
+                      top: 100,
+                      right: 150,
+                      child: Text('''
+                      Donation
+                      Packages''',
+                      style: TextStyle(
+                        color:  Colors.white,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold
+                      ),
+                      )
+                    ),
+                    Positioned(
+                      top: 180,
+                      right: 0,
+                      left: 0,
+                      child: Container(
+                        margin: EdgeInsets.symmetric(vertical: 20.0),
+                        height: 245.0,
+                        child: ListView.separated(
+                          padding: EdgeInsets.only(left: 20, right: 20),
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 3,
+                          separatorBuilder: (BuildContext context, int index) {
+                            return SizedBox(
+                              width: 10,
+                            );
+                          },
+                          itemBuilder: (BuildContext context, int index){
+                            return GestureDetector(
+                              onTap: () => {
+                                Navigator.of(context).pushNamed('/package_detail')
+                              },
+                              child: Container(
+                                width: 250,
+                                child: Stack(
+                                  children: <Widget>[
+                                    Text(
+                                      "Standard",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 23,
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 20,
+                                      child: SizedBox(
+                                        width: 200,
+                                        height: 230,
+                                        child: Card(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(15)
+                                          ),
+                                          color: Color(int.parse('0xff00838f')),
+                                          child: Stack(
+                                            children: <Widget>[
+                                              Container(
+                                                padding: EdgeInsets.all(17),
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.white
+                                                ),
+                                                child: Text(
+                                                  "200 birr",
+                                                  style: TextStyle(
+                                                    color: Colors.green
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      bottom: 0,
+                                      right: 50,
+                                      child: Container(
+                                        margin: EdgeInsets.all(100),
+                                        height: 50,
+                                        child: Text('''
+                                        2 liter veg oil
+                                        3 kilo rice
+                                        2 kilo flour''',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 15,
+                                        ),
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      left: 150,
+                                      child: Image.asset(
+                                        'assets/images/flour.jpg',
+                                        width: 100,
+                                        height: 200,
+                                      ),
+                                    ),
+                                    Positioned(
+                                      left: 120,
+                                      top: 80,
+                                      child: Image.asset(
+                                        'assets/images/oil.jpg',
+                                        width: 70,
+                                        height: 100,
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 190,
+                                      left: 60,
+                                      child: RaisedButton(
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(18)
+                                      ),
+                                      color:  Color(int.parse('0xff3fa1a9')),
+                                      child: Text(
+                                        "Donate",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20
+                                        ),
+                                      ),
+                                      onPressed: () => {
+                                        Navigator.of(context).pushNamed('/package_detail')
+                                      },
+                                    ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );                      
+                          }, 
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),
-      bottomNavigationBar: BottomNav()
+      bottomNavigationBar: BottomNav(0)
     );
   }
 

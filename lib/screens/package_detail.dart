@@ -249,7 +249,7 @@ class PackageDetailState extends State<PackageDetail>{
           )
         ],
       ),
-      bottomNavigationBar: BottomNav()
+      bottomNavigationBar: BottomNav(1)
     );
   }
 }

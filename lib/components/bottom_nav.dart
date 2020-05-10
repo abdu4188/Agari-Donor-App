@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
+int currentIndex;
 class BottomNav extends StatefulWidget{
+  BottomNav(index){
+    currentIndex = index;
+  }
   @override
   State<StatefulWidget> createState() {
     return BottomNavState();
@@ -35,6 +39,13 @@ class BottomNavState extends State<BottomNav>{
           onTap: bottomNaviagationTapped,
           showSelectedLabels: false,
           showUnselectedLabels: false,
+          currentIndex: currentIndex,
+          selectedIconTheme: IconThemeData(
+            color: Colors.white
+          ),
+          unselectedIconTheme: IconThemeData(
+            color: Colors.black26
+          ),
           backgroundColor: Color(int.parse('0xff00838f')),
           type: BottomNavigationBarType.fixed,
           items: <BottomNavigationBarItem>[
@@ -42,7 +53,6 @@ class BottomNavState extends State<BottomNav>{
               icon: Icon(
                 Icons.home,
                 size: 30,
-                color: Colors.white,
               ),
               title: Text(""),
             ),
@@ -50,7 +60,6 @@ class BottomNavState extends State<BottomNav>{
               icon: Icon(
                 Icons.add,
                 size: 30,
-                color: Colors.white,
               ),
               title: Text(""),
             ),
@@ -58,7 +67,6 @@ class BottomNavState extends State<BottomNav>{
               icon: Icon(
                 Icons.person,
                 size: 30,
-                color: Colors.white,
               ),
               title: Text(""),
             ),
@@ -66,7 +74,6 @@ class BottomNavState extends State<BottomNav>{
               icon: Icon(
                 Icons.help,
                 size: 30,
-                color: Colors.white,
               ),
               title: Text(""),
             ),

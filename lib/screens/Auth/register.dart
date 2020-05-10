@@ -45,202 +45,206 @@ class RegisterState extends State<Register>{
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldkey,
-      body: Align(
-        widthFactor: double.infinity,
-        child: ListView(
-          children: <Widget>[
-            Row(
+      body: Stack(
+        children: <Widget>[
+          Positioned(
+            left: 200,
+            child: Image.asset("assets/images/header.png",height: 200.0,width:220.0,fit: BoxFit.cover,),
+          ),
+          Align(
+            widthFactor: double.infinity,
+            child: ListView(
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 100),
-                  child: IconButton(
-                    icon: Icon(Icons.arrow_back),
-                    iconSize: 35,
-                    color: Colors.blue,
-                    onPressed: () =>{
-                      Navigator.of(context).pop()
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 48),
-                  child: Image.asset("assets/images/logo.png",height: 200.0,width:220.0,fit: BoxFit.cover,),
-                ),
-              ],
-            ),
-            Padding(
-                padding: const EdgeInsets.all(30.0),
-                child: Column(
+                Row(
                   children: <Widget>[
-                    Text(
-                      "Let's Get Started!",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "Create an account to start donating and help others",
-                      style: TextStyle(
-                        fontSize: 11,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Form(
-                      child: Column(
-                        children: <Widget>[
-                          TextFormField(
-                            controller: nameController,
-                            textInputAction: TextInputAction.next,
-                            focusNode: _nameNode,
-                            decoration: InputDecoration(
-                              labelText: "Full name",
-                              prefixIcon: Icon(Icons.person),
-                              hintText: "Enter your full name",
-                              errorText: nameError
-                            ),
-                            onFieldSubmitted: (term){
-                              _fieldFocusChange(context, _nameNode, _phoneNode);
-                            },
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          TextFormField(
-                            controller: phoneController,
-                            keyboardType: TextInputType.phone,
-                            textInputAction: TextInputAction.next,
-                            focusNode: _phoneNode,
-                            decoration: InputDecoration(
-                              labelText: "Phone number",
-                              prefixIcon: Icon(Icons.phone),
-                              hintText: "Enter your phone number",
-                              errorText: phoneError
-                            ),
-                            onFieldSubmitted: (term){
-                              _fieldFocusChange(context, _phoneNode, _passwordNode);
-                            },
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          TextFormField(
-                            controller: passwordController,
-                            obscureText: true,
-                            textInputAction: TextInputAction.next,
-                            focusNode: _passwordNode,
-                            decoration: InputDecoration(
-                              labelText: "Password",
-                              prefixIcon: Icon(Icons.lock),
-                              hintText: "Enter password",
-                            ),
-                            onFieldSubmitted: (term){
-                              _fieldFocusChange(context, _passwordNode, _rePasswordNode);
-                            },
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 30, right: 30, top: 5),
-                            child: Text(
-                              passwordError,
-                              style: TextStyle(
-                                color: Colors.red
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          TextFormField(
-                            textInputAction: TextInputAction.done,
-                            controller: repasswordController,
-                            obscureText: true,
-                            focusNode: _rePasswordNode,
-                            decoration: InputDecoration(
-                              labelText: "Reenter password",
-                              prefixIcon: Icon(Icons.lock),
-                              hintText: "Reenter password",
-                              errorText: rePasswordError
-                            ),
-                          ),
-                          SizedBox(
-                            height: 0,
-                          ),
-                        ],
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 100),
+                      child: IconButton(
+                        icon: Icon(Icons.arrow_back),
+                        iconSize: 35,
+                        color: Colors.blue,
+                        onPressed: () =>{
+                          Navigator.of(context).pop()
+                        },
                       ),
                     ),
                   ],
                 ),
-              ),
-            Column( 
-              children: <Widget>[
-                RaisedButton(
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: registering ? Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 15),
-                    child: CircularProgressIndicator(
-                      backgroundColor: Colors.white,
-                    ),
-                  ) :
-                  Text(
-                    "Register",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-                color: Color(int.parse('0xff3fa1a9')),
-                onPressed: () => {
-                  FocusScope.of(context).requestFocus(new FocusNode()),
-                  registerPressed()
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25)
-                ),
-              ),
-              ]
-            ),                 
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(left: 80, top: 40, right: 0, bottom: 20),
+                Padding(
+                    padding: const EdgeInsets.all(30.0),
                     child: Column(
                       children: <Widget>[
                         Text(
-                          "Have an account already",
+                          "Let's Get Started!",
                           style: TextStyle(
-                            fontSize: 15,
+                            fontSize: 20,
                             fontWeight: FontWeight.w600
                           ),
                         ),
-                        FlatButton(
-                          child: Text(
-                            "Login here",
-                            style: TextStyle(
-                              color: Color(int.parse('0xff3fa1a9')),
-                              fontSize: 18
-                            ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "Create an account to start donating and help others",
+                          style: TextStyle(
+                            fontSize: 11,
                           ),
-                          onPressed: () => {
-                            Navigator.of(context).pop()
-                          },
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Form(
+                          child: Column(
+                            children: <Widget>[
+                              TextFormField(
+                                controller: nameController,
+                                textInputAction: TextInputAction.next,
+                                focusNode: _nameNode,
+                                decoration: InputDecoration(
+                                  labelText: "Full name",
+                                  prefixIcon: Icon(Icons.person),
+                                  hintText: "Enter your full name",
+                                  errorText: nameError
+                                ),
+                                onFieldSubmitted: (term){
+                                  _fieldFocusChange(context, _nameNode, _phoneNode);
+                                },
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                controller: phoneController,
+                                keyboardType: TextInputType.phone,
+                                textInputAction: TextInputAction.next,
+                                focusNode: _phoneNode,
+                                decoration: InputDecoration(
+                                  labelText: "Phone number",
+                                  prefixIcon: Icon(Icons.phone),
+                                  hintText: "Enter your phone number",
+                                  errorText: phoneError
+                                ),
+                                onFieldSubmitted: (term){
+                                  _fieldFocusChange(context, _phoneNode, _passwordNode);
+                                },
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                controller: passwordController,
+                                obscureText: true,
+                                textInputAction: TextInputAction.next,
+                                focusNode: _passwordNode,
+                                decoration: InputDecoration(
+                                  labelText: "Password",
+                                  prefixIcon: Icon(Icons.lock),
+                                  hintText: "Enter password",
+                                ),
+                                onFieldSubmitted: (term){
+                                  _fieldFocusChange(context, _passwordNode, _rePasswordNode);
+                                },
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 30, right: 30, top: 5),
+                                child: Text(
+                                  passwordError,
+                                  style: TextStyle(
+                                    color: Colors.red
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                textInputAction: TextInputAction.done,
+                                controller: repasswordController,
+                                obscureText: true,
+                                focusNode: _rePasswordNode,
+                                decoration: InputDecoration(
+                                  labelText: "Reenter password",
+                                  prefixIcon: Icon(Icons.lock),
+                                  hintText: "Reenter password",
+                                  errorText: rePasswordError
+                                ),
+                              ),
+                              SizedBox(
+                                height: 0,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
-                ],
-              ),
+                Column( 
+                  children: <Widget>[
+                    RaisedButton(
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: registering ? Padding(
+                        padding: const EdgeInsets.only(left: 15, right: 15),
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                        ),
+                      ) :
+                      Text(
+                        "Register",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                    color: Color(int.parse('0xff3fa1a9')),
+                    onPressed: () => {
+                      FocusScope.of(context).requestFocus(new FocusNode()),
+                      registerPressed()
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25)
+                    ),
+                  ),
+                  ]
+                ),                 
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(left: 80, top: 40, right: 0, bottom: 20),
+                        child: Column(
+                          children: <Widget>[
+                            Text(
+                              "Have an account already",
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600
+                              ),
+                            ),
+                            FlatButton(
+                              child: Text(
+                                "Login here",
+                                style: TextStyle(
+                                  color: Color(int.parse('0xff3fa1a9')),
+                                  fontSize: 18
+                                ),
+                              ),
+                              onPressed: () => {
+                                Navigator.of(context).pop()
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

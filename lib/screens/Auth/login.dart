@@ -44,7 +44,7 @@ class LoginState extends State<Login>{
                 children: <Widget>[
                   Column(
                     children: <Widget>[
-                      Image.asset("assets/images/logo.png",height: 200.0,width:300.0,fit: BoxFit.cover,),
+                      Image.asset("assets/images/nlogo.png",height: 250.0,width: 350.0,fit: BoxFit.cover,),
                       Text(Strings.MOTTO, style: TextStyles.mottoStyle)
                     ],
                   ),

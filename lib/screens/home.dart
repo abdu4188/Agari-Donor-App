@@ -114,7 +114,7 @@ class HomeState extends State<HomeScreen>{
   checkLogin() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool tokenCheck = prefs.containsKey('token');
-    if(!tokenCheck){
+    if(tokenCheck){
       Navigator.of(context).pushReplacementNamed('/login');
     }
     else{

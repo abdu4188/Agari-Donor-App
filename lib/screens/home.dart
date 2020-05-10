@@ -45,6 +45,7 @@ class HomeState extends State<HomeScreen>{
           }
         );
 
+        print(response.body);
         var jsonResponse = jsonDecode(response.body);
 
         if(jsonResponse['location'] == null){

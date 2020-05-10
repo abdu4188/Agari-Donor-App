@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:agari_doner/components/bottom_nav.dart';
+import 'package:agari_doner/screens/package_detail.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -13,6 +14,8 @@ class HomeScreen extends StatefulWidget{
   } 
 }
 
+var packages = [];
+bool packagesLoaded = false;
 enum PermissionGroup {
   /// Android: Fine and Coarse Location
   /// iOS: CoreLocation - Always
@@ -29,6 +32,7 @@ class HomeState extends State<HomeScreen>{
   @override
   void initState() {
     checkLogin();
+    getPackages();
     super.initState();
   }
   
@@ -123,13 +127,56 @@ class HomeState extends State<HomeScreen>{
     }
   }
 
+  getPackages() async{
+    try{
+        final result = await InternetAddress.lookup('google.com');
+
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty){
+
+          response = await http.get(
+            "https://agari-api.herokuapp.com/donation/packages",
+            headers: {
+              "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJiaW4iLCJzdWIiOiI1ZWEzMjk4NGIzNDQ2MTAwMTdmZjI1OWUiLCJpYXQiOjE1ODg2ODMzODE0NzB9.oXLix8lzlVNknYrpMRSy2FBgZRr551gq3knJxWtneLg"
+            }
+          );
+
+          if(jsonDecode(response.body).length > 0){
+            setState(() {
+              packages = jsonDecode(response.body);
+              print(packages);
+              packagesLoaded = true;
+            });
+          }
+          
+        }
+    }
+    on SocketException catch (_) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return AlertDialog(
+            content: Text(
+              "You are not connected. Please connect to the internet and try again!"
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Close"),
+                onPressed: () => {Navigator.of(context).pop()},
+              )
+            ],
+          );
+        }
+      );
+    }
+  }
+
   String userId;
 
   @override
   Widget build(BuildContext context) {
     userId = ModalRoute.of(context).settings.arguments;
     return Scaffold(
-      body: Column(
+      body: packagesLoaded ? Column(
         children: <Widget>[
           Expanded(
             child: Stack(
@@ -165,7 +212,7 @@ class HomeState extends State<HomeScreen>{
                       padding: EdgeInsets.only(left: 20, right: 20),
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
-                      itemCount: 3,
+                      itemCount: packages.length,
                       separatorBuilder: (BuildContext context, int index) {
                         return SizedBox(
                           width: 10,
@@ -174,14 +221,13 @@ class HomeState extends State<HomeScreen>{
                       itemBuilder: (BuildContext context, int index){
                         return GestureDetector(
                           onTap: () => {
-                            Navigator.of(context).pushNamed('/package_detail')
                           },
                           child: Container(
                             width: 250,
                             child: Stack(
                               children: <Widget>[
                                 Text(
-                                  "Standard",
+                                  packages[index]['name'],
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 23,
@@ -221,17 +267,21 @@ class HomeState extends State<HomeScreen>{
                                   bottom: 0,
                                   right: 50,
                                   child: Container(
-                                    margin: EdgeInsets.all(100),
-                                    height: 50,
-                                    child: Text('''
-                                    2 liter veg oil
-                                    3 kilo rice
-                                    2 kilo flour''',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                    ),
-                                    ),
+                                    width: 80,
+                                    margin: EdgeInsets.only(left: 100, top: 100, bottom: 50,right: 100),
+                                    padding: EdgeInsets.only(top: 60),
+                                    height: 150,
+                                    child: ListView.builder(
+                                     itemCount: packages[index]['details'].length,
+                                     itemBuilder: (BuildContext context, indext){
+                                       return Text(packages[index]['details'][indext],
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 15,
+                                        ),
+                                      );
+                                     }, 
+                                    )
                                   ),
                                 ),
                                 Positioned(
@@ -268,7 +318,14 @@ class HomeState extends State<HomeScreen>{
                                     ),
                                   ),
                                   onPressed: () => {
-                                    Navigator.of(context).pushNamed('/package_detail')
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => PackageDetail(),
+                                        settings: RouteSettings(
+                                          arguments: packages[index]
+                                        )
+                                      )
+                                    )
                                   },
                                 ),
                                 )
@@ -284,7 +341,7 @@ class HomeState extends State<HomeScreen>{
             ),
           ),
         ],
-      ),
+      ) : Center(child: CircularProgressIndicator()),
       bottomNavigationBar: BottomNav(0)
     );
   }

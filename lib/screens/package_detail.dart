@@ -6,10 +6,11 @@ class PackageDetail extends StatefulWidget{
     return PackageDetailState();
   }
 }
-
+var packageDetail = {};
 class PackageDetailState extends State<PackageDetail>{
   @override
   Widget build(BuildContext context) {
+    packageDetail = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       body: Column(
         children: <Widget>[
@@ -50,73 +51,53 @@ class PackageDetailState extends State<PackageDetail>{
                     height: 100,
                     child: Row(
                       children: <Widget>[
-                        Column(
-                          children: <Widget>[
-                            Text(
-                              "2kg",
-                              style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold
-                              ),
-                            ),
-                            Text(
-                              "RICE",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w300
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          width: 40,
-                        ),
-                        Column(
-                          children: <Widget>[
-                            Text(
-                              "3kg",
-                              style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold
-                              ),
-                            ),
-                            Text(
-                              "FLOUR",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w300
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          width: 40,
-                        ),
-                        Column(
-                          children: <Widget>[
-                            Text(
-                              "2ltr",
-                              style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold
-                              ),
-                            ),
-                            Text(
-                              "VEG OIL",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w300
-                              ),
-                            ),
-                          ],
+                        Container(
+                          height: 100,
+                          width: 250,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: packageDetail['details'].length,
+                            itemBuilder: (BuildContext context, index){
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 20),
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(
+                                      packageDetail['details'][index],
+                                      style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ],
                     ),
                   ),
                 ),
                 Positioned(
+                  left: 20,
+                  right: 20,
+                  top: 380,
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        packageDetail['description'],
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Color(int.parse('0xff00838f'))
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Positioned(
                   left: 110,
-                  top: 410,
+                  top: 430,
                   child: RaisedButton(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18)

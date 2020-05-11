@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:agari_doner/components/bottom_nav.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class DonationHistory extends StatefulWidget{
   @override
@@ -8,7 +12,14 @@ class DonationHistory extends StatefulWidget{
   }
 }
 
+var donationHistory = [];
+var formatter = new DateFormat('M EEEE y');
 class DonationHistoryState extends State<DonationHistory>{
+  @override
+  void initState() {
+    getDonationHistory();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,9 +74,10 @@ class DonationHistoryState extends State<DonationHistory>{
                  left: 0,
                  bottom: 0,
                  child: ListView.builder(
-                   itemCount: 16,
+                   itemCount: donationHistory.length,
                    itemBuilder: (BuildContext context, index){
                      return Card(
+                       color: Colors.white70,
                        shape: RoundedRectangleBorder(
                          borderRadius: BorderRadius.circular(18)
                        ),
@@ -93,7 +105,7 @@ class DonationHistoryState extends State<DonationHistory>{
                                      child: Padding(
                                        padding: const EdgeInsets.all(8.0),
                                        child: Text(
-                                         "Pending",
+                                         donationHistory[index]['status'],
                                          style: TextStyle(
                                            color: Colors.white
                                          ),
@@ -105,12 +117,12 @@ class DonationHistoryState extends State<DonationHistory>{
                              ),
                            ),
                            Padding(
-                             padding: const EdgeInsets.only(left: 65),
+                             padding: const EdgeInsets.only(left: 45),
                              child: Text(
-                               "10 wed 2020",
+                                DateFormat("M EEEE y").format(DateTime.parse(donationHistory[index]['created'])).toString(),
                                style: TextStyle(
                                  color: Color(int.parse('0xff3fa1a9')),
-                                 fontSize: 20
+                                 fontSize: 18
                                ),
                             ),
                            )
@@ -127,5 +139,43 @@ class DonationHistoryState extends State<DonationHistory>{
      ),
      bottomNavigationBar: BottomNav(2), 
     );
+  }
+
+  getDonationHistory() async{
+    try{
+        final result = await InternetAddress.lookup('google.com');
+
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty){
+          var response;
+
+          response = await http.get(
+            "https://agari-api.herokuapp.com/donation/my",
+            headers: {
+              "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJiaW4iLCJzdWIiOiI1ZWEzMjk4NGIzNDQ2MTAwMTdmZjI1OWUiLCJpYXQiOjE1ODg2ODMzODE0NzB9.oXLix8lzlVNknYrpMRSy2FBgZRr551gq3knJxWtneLg"
+            }
+          );
+
+          donationHistory = jsonDecode(response.body);
+          print(donationHistory);
+        }
+    }
+    on SocketException catch (_) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return AlertDialog(
+            content: Text(
+              "You are not connected. Please connect to the internet and try again!"
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Close"),
+                onPressed: () => {Navigator.of(context).pop()},
+              )
+            ],
+          );
+        }
+      );
+    } 
   }
 }

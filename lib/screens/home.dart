@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:agari_doner/components/bottom_nav.dart';
 import 'package:agari_doner/components/donation_type.dart';
 import 'package:agari_doner/screens/package_detail.dart';
 import 'package:http/http.dart' as http;
@@ -349,7 +348,7 @@ class HomeState extends State<HomeScreen>{
           ),
         ],
       ) : Center(child: CircularProgressIndicator()),
-      bottomNavigationBar: BottomNav(0)
+      // bottomNavigationBar: BottomNav(0)
     );
   }
 

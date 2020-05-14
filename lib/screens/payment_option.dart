@@ -1,4 +1,3 @@
-import 'package:agari_doner/components/bottom_nav.dart';
 import 'package:agari_doner/components/pin_dialog.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +23,7 @@ class PaymentOptionState extends State<PaymentOption> with TickerProviderStateMi
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNav(3),
+      // bottomNavigationBar: BottomNav(3),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[

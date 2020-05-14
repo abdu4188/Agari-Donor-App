@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:agari_doner/components/bottom_nav.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -137,7 +136,7 @@ class DonationHistoryState extends State<DonationHistory>{
          ),
        ],
      ),
-     bottomNavigationBar: BottomNav(2), 
+    //  bottomNavigationBar: BottomNav(2), 
     );
   }
 

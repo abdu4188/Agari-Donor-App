@@ -3,6 +3,9 @@ import 'package:agari_doner/components/pin_dialog.dart';
 import 'package:flutter/material.dart';
 
 class PaymentOption extends StatefulWidget{
+  final packageId;
+  PaymentOption(this.packageId);
+
   @override
   State<StatefulWidget> createState() {
     return PaymentOptionState();
@@ -76,7 +79,7 @@ class PaymentOptionState extends State<PaymentOption> with TickerProviderStateMi
                         onTap: () => {
                           showDialog(
                             context: context,
-                            child: PinDialog()
+                            child: PinDialog("CBE birr")
                           )
                         },
                         child: ClipRRect(
@@ -111,30 +114,38 @@ class PaymentOptionState extends State<PaymentOption> with TickerProviderStateMi
                       SizedBox(
                         height: 15,
                       ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(18),
-                        child: Card(
-                          color: Color(int.parse('0xff6cbbab')),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: <Widget>[
-                                Image.asset(
-                                  'assets/images/amole.jpg',
-                                  width: 30,
-                                  height: 30,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  "Donate 500 birr using AMOLE",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Color(int.parse('0xff00838f')),
+                      GestureDetector(
+                        onTap: () => {
+                          showDialog(
+                            context: context,
+                            child: PinDialog("Amole")
+                          )
+                        },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(18),
+                          child: Card(
+                            color: Color(int.parse('0xff6cbbab')),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Image.asset(
+                                    'assets/images/amole.jpg',
+                                    width: 30,
+                                    height: 30,
                                   ),
-                                )
-                              ],
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    "Donate 500 birr using AMOLE",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Color(int.parse('0xff00838f')),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -142,30 +153,38 @@ class PaymentOptionState extends State<PaymentOption> with TickerProviderStateMi
                       SizedBox(
                         height: 15,
                       ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(18),
-                        child: Card(
-                          color: Color(int.parse('0xff6cbbab')),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: <Widget>[
-                                Image.asset(
-                                  'assets/images/hellocash.jpg',
-                                  width: 35,
-                                  height: 35,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  "Donate 500 birr using HELLO CASH",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color(int.parse('0xff00838f')),
+                      GestureDetector(
+                        onTap: () => {
+                          showDialog(
+                            context: context,
+                            child: PinDialog("Hello Cash")
+                          )
+                        },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(18),
+                          child: Card(
+                            color: Color(int.parse('0xff6cbbab')),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Image.asset(
+                                    'assets/images/hellocash.jpg',
+                                    width: 35,
+                                    height: 35,
                                   ),
-                                )
-                              ],
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    "Donate 500 birr using HELLO CASH",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Color(int.parse('0xff00838f')),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),

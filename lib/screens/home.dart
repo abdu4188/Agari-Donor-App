@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:agari_doner/components/bottom_nav.dart';
+import 'package:agari_doner/components/donation_type.dart';
 import 'package:agari_doner/screens/package_detail.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -141,11 +142,13 @@ class HomeState extends State<HomeScreen>{
           );
 
           if(jsonDecode(response.body).length > 0){
-            setState(() {
-              packages = jsonDecode(response.body);
-              print(packages);
-              packagesLoaded = true;
-            });
+            if(this.mounted){
+              setState(() {
+                packages = jsonDecode(response.body);
+                print(packages);
+                packagesLoaded = true;
+              });
+            }
           }
           
         }
@@ -221,6 +224,14 @@ class HomeState extends State<HomeScreen>{
                       itemBuilder: (BuildContext context, int index){
                         return GestureDetector(
                           onTap: () => {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => PackageDetail(),
+                                settings: RouteSettings(
+                                  arguments: packages[index]
+                                )
+                              )
+                            )
                           },
                           child: Container(
                             width: 250,
@@ -318,13 +329,9 @@ class HomeState extends State<HomeScreen>{
                                     ),
                                   ),
                                   onPressed: () => {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => PackageDetail(),
-                                        settings: RouteSettings(
-                                          arguments: packages[index]
-                                        )
-                                      )
+                                    showDialog(
+                                      context: context,
+                                      child: DonationType(packages[index]['_id'])
                                     )
                                   },
                                 ),

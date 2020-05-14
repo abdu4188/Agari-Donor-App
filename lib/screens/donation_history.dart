@@ -117,12 +117,12 @@ class DonationHistoryState extends State<DonationHistory>{
                              ),
                            ),
                            Padding(
-                             padding: const EdgeInsets.only(left: 45),
+                             padding: const EdgeInsets.only(left: 40),
                              child: Text(
                                 DateFormat("M EEEE y").format(DateTime.parse(donationHistory[index]['created'])).toString(),
                                style: TextStyle(
                                  color: Color(int.parse('0xff3fa1a9')),
-                                 fontSize: 18
+                                 fontSize: 17
                                ),
                             ),
                            )

@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 
 class PinDialog extends StatefulWidget{
+  final method;
+  PinDialog(this.method);
+
   @override
   State<StatefulWidget> createState() {
-    return PinDialogState();
+    return PinDialogState(method);
   }
 }
 
 class PinDialogState extends State<PinDialog>{
+  final method;
+  PinDialogState(this.method);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -44,12 +50,15 @@ class PinDialogState extends State<PinDialog>{
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Text(
-                      "Please enter your CBE birr pin number",
+                      "Please enter your $method pin number",
                       style: TextStyle(
                         color: Color(int.parse('0xff245a5a')),
                         fontSize: 24.0,
                         fontWeight: FontWeight.w700
                       )
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                   TextField(
                     keyboardType: TextInputType.number,

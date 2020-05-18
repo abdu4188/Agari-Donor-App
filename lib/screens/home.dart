@@ -8,9 +8,14 @@ import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget{
+  final String id;
+  final String token;
+
+  const HomeScreen({Key key, this.id, this.token}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
-    return HomeState();
+    return HomeState(id, token);
   } 
 }
 
@@ -27,8 +32,12 @@ enum PermissionGroup {
 }
 
 class HomeState extends State<HomeScreen>{
+  final String userId;
+  final String token;
 
   Position _currentPosition;
+
+  HomeState(this.userId, this.token);
   @override
   void initState() {
     checkLogin();
@@ -172,11 +181,8 @@ class HomeState extends State<HomeScreen>{
     }
   }
 
-  String userId;
-
   @override
   Widget build(BuildContext context) {
-    userId = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       body: packagesLoaded ? Column(
         children: <Widget>[
@@ -369,7 +375,7 @@ class HomeState extends State<HomeScreen>{
             "https://agari-api.herokuapp.com/user/location/$userId",
             body: body,
             headers: {
-              "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJiaW4iLCJzdWIiOiI1ZWEzMjk4NGIzNDQ2MTAwMTdmZjI1OWUiLCJpYXQiOjE1ODc3NTEzMDA5MDl9.U8xJ-EcAkZtMGK5Mzj29K8sMUsxLb98kpU15cqpQqv0"
+              "Authorization": token
             }
           );
         }

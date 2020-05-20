@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:agari_doner/components/donation_type.dart';
+import 'package:agari_doner/models/packages.dart';
 import 'package:agari_doner/screens/package_detail.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -58,7 +59,7 @@ class HomeState extends State<HomeScreen>{
           }
         );
 
-        print(response.body);
+        // print(response.body);
         var jsonResponse = jsonDecode(response.body);
 
         if(jsonResponse['location'] == null){
@@ -145,14 +146,21 @@ class HomeState extends State<HomeScreen>{
           response = await http.get(
             "https://agari-api.herokuapp.com/donation/packages",
             headers: {
-              "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJiaW4iLCJzdWIiOiI1ZWEzMjk4NGIzNDQ2MTAwMTdmZjI1OWUiLCJpYXQiOjE1ODg2ODMzODE0NzB9.oXLix8lzlVNknYrpMRSy2FBgZRr551gq3knJxWtneLg"
+              "Authorization": token
             }
           );
 
           if(jsonDecode(response.body).length > 0){
             if(this.mounted){
               setState(() {
-                packages = jsonDecode(response.body);
+                final items = json.decode(response.body).cast<Map<String, dynamic>>();
+                List<Packages> listOfPackages = items.map<Packages>(
+                  (json) {
+                    return Packages.fromJson(json);
+                  }
+                ).toList();
+                
+                packages = listOfPackages;
                 print(packages);
                 packagesLoaded = true;
               });
@@ -336,7 +344,7 @@ class HomeState extends State<HomeScreen>{
                                   onPressed: () => {
                                     showDialog(
                                       context: context,
-                                      child: DonationType(packages[index]['_id'])
+                                      child: DonationType(packages[index]._id)
                                     )
                                   },
                                 ),

@@ -73,64 +73,74 @@ class DonationHistoryState extends State<DonationHistory>{
                  right: 0,
                  left: 0,
                  bottom: 0,
-                 child: ListView.builder(
-                   itemCount: donationHistory.length,
-                   itemBuilder: (BuildContext context, index){
-                     return Card(
-                       color: Colors.white70,
-                       shape: RoundedRectangleBorder(
-                         borderRadius: BorderRadius.circular(18)
-                       ),
-                       child: Row(
-                         children: <Widget>[
-                           Padding(
-                             padding: const EdgeInsets.only(left: 20, bottom: 20, top: 15),
-                             child: Column(
-                               children: <Widget>[
-                                 Text(
-                                   "Standard",
-                                   style: TextStyle(
-                                     fontSize: 25,
-                                     fontWeight: FontWeight.w600,
-                                     color: Color(int.parse('0xff3fa1a9'))
-                                   ),
-                                  ),
-                                 SizedBox(
-                                   height: 10,
-                                 ),
-                                 ClipRRect(
-                                   borderRadius: BorderRadius.circular(20),
-                                   child: Container(
-                                     color:  Color(int.parse('0xff3fa1a9')),
-                                     child: Padding(
-                                       padding: const EdgeInsets.all(8.0),
-                                       child: Text(
-                                         donationHistory[index]['status'],
-                                         style: TextStyle(
-                                           color: Colors.white
-                                         ),
-                                      ),
-                                     ),
-                                   ),
-                                 )
-                               ],
-                             ),
-                           ),
-                           Padding(
-                             padding: const EdgeInsets.only(left: 40),
-                             child: Text(
-                                DateFormat("M EEEE y").format(DateTime.parse(donationHistory[index]['created'])).toString(),
-                               style: TextStyle(
-                                 color: Color(int.parse('0xff3fa1a9')),
-                                 fontSize: 17
-                               ),
+                 child: FutureBuilder<List<DonationHistoryModel>>(
+                   future: getDonationHistory(),
+                   builder: (context, snapshot){
+                     if(!snapshot.hasData){
+                       return Center(child: CircularProgressIndicator());
+                     }
+                     else{
+                       return ListView.builder(
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (BuildContext context, index){
+                          return Card(
+                            color: Colors.white70,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18)
                             ),
-                           )
-                         ],
-                       )
-                     );
+                            child: Row(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 20, bottom: 20, top: 15),
+                                  child: Column(
+                                    children: <Widget>[
+                                      Text(
+                                        "Standard",
+                                        style: TextStyle(
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.w600,
+                                          color: Color(int.parse('0xff3fa1a9'))
+                                        ),
+                                        ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(20),
+                                        child: Container(
+                                          color:  Color(int.parse('0xff3fa1a9')),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              snapshot.data[index].status,
+                                              style: TextStyle(
+                                                color: Colors.white
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 40),
+                                  child: Text(
+                                      DateFormat("M EEEE y").format(DateTime.parse(snapshot.data[index].created)).toString(),
+                                    style: TextStyle(
+                                      color: Color(int.parse('0xff3fa1a9')),
+                                      fontSize: 17
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
+                          );
+                        },
+                      );
+                     }
                    },
-                 ),
+                 )
                )
              ],
            ),
@@ -141,7 +151,7 @@ class DonationHistoryState extends State<DonationHistory>{
     );
   }
 
-  getDonationHistory() async{
+  Future<List<DonationHistoryModel>> getDonationHistory() async{
     try{
         final result = await InternetAddress.lookup('google.com');
 
@@ -162,7 +172,7 @@ class DonationHistoryState extends State<DonationHistory>{
             }
           ).toList();
 
-          donationHistory = listOfHistory;
+          return listOfHistory;
         }
     }
     on SocketException catch (_) {

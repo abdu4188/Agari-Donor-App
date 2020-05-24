@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:agari_doner/models/donationHistory.dart';
+import 'package:agari_doner/screens/donation_confirmation.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -91,58 +92,71 @@ class DonationHistoryState extends State<DonationHistory>{
                        return ListView.builder(
                         itemCount: snapshot.data.length,
                         itemBuilder: (BuildContext context, index){
-                          return Card(
-                            color: Colors.white70,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18)
-                            ),
-                            child: Row(
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 20, bottom: 20, top: 15),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Text(
-                                        "Standard",
-                                        style: TextStyle(
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(int.parse('0xff3fa1a9'))
+                          return GestureDetector(
+                            onTap: () {
+                              if(snapshot.data[index].status == 'pending'){
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => DonationConfirmation(
+                                      id: snapshot.data[index].sId
+                                    )
+                                  )
+                                );
+                              }
+                            },
+                            child: Card(
+                              color: Colors.white70,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18)
+                              ),
+                              child: Row(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 20, bottom: 20, top: 15),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Text(
+                                          "Standard",
+                                          style: TextStyle(
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.w600,
+                                            color: Color(int.parse('0xff3fa1a9'))
+                                          ),
+                                          ),
+                                        SizedBox(
+                                          height: 10,
                                         ),
-                                        ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(20),
-                                        child: Container(
-                                          color:  Color(int.parse('0xff3fa1a9')),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              snapshot.data[index].status,
-                                              style: TextStyle(
-                                                color: Colors.white
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.circular(20),
+                                          child: Container(
+                                            color:  Color(int.parse('0xff3fa1a9')),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                snapshot.data[index].status,
+                                                style: TextStyle(
+                                                  color: Colors.white
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 40),
-                                  child: Text(
-                                      DateFormat("M EEEE y").format(DateTime.parse(snapshot.data[index].created)).toString(),
-                                    style: TextStyle(
-                                      color: Color(int.parse('0xff3fa1a9')),
-                                      fontSize: 17
+                                        )
+                                      ],
                                     ),
                                   ),
-                                )
-                              ],
-                            )
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 40),
+                                    child: Text(
+                                        DateFormat("M EEEE y").format(DateTime.parse(snapshot.data[index].created)).toString(),
+                                      style: TextStyle(
+                                        color: Color(int.parse('0xff3fa1a9')),
+                                        fontSize: 17
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              )
+                            ),
                           );
                         },
                       );
@@ -160,7 +174,6 @@ class DonationHistoryState extends State<DonationHistory>{
   }
 
   Future<List<DonationHistoryModel>> getDonationHistory() async{
-    print("getdh");
     try{
         final result = await InternetAddress.lookup('google.com');
 
@@ -170,7 +183,7 @@ class DonationHistoryState extends State<DonationHistory>{
           response = await http.get(
             "https://agari-api.herokuapp.com/donation/my",
             headers: {
-              "Authorization": token
+              "Authorization": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJiaW4iLCJzdWIiOiI1ZWEzMjk4NGIzNDQ2MTAwMTdmZjI1OWUiLCJpYXQiOjE1ODg2ODMzODE0NzB9.oXLix8lzlVNknYrpMRSy2FBgZRr551gq3knJxWtneLg'
             }
           );
 

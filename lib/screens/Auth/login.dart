@@ -202,7 +202,7 @@ class LoginState extends State<Login>{
                 logging = false;
               });
               jsonResponse = jsonDecode(response.body);
-              addTokenToSF(jsonResponse['token']);
+              addTokenToSF(jsonResponse['token'], jsonResponse['_id']);
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => HomeScreen(id: jsonResponse['user']['_id']),
@@ -242,9 +242,10 @@ class LoginState extends State<Login>{
       });
     }
   }
-  addTokenToSF(String token) async {
+  addTokenToSF(String token, String id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('token', token);
+    prefs.setString('id', id);
   }
   
 }

@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 
 class DonationConfirmation extends StatefulWidget{
+  final String id;
+
+  const DonationConfirmation({Key key, this.id}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
-    return DonationConfirmationState();
+    return DonationConfirmationState(id);
   }
 }
 
 class DonationConfirmationState extends State<DonationConfirmation>{
+  final String id;
+
+  DonationConfirmationState(this.id);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

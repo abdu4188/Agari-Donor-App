@@ -4,6 +4,7 @@ import 'package:agari_doner/models/donationHistory.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DonationHistory extends StatefulWidget{
   @override
@@ -13,13 +14,20 @@ class DonationHistory extends StatefulWidget{
 }
 
 var donationHistory = [];
+String token;
 var formatter = new DateFormat('M EEEE y');
 class DonationHistoryState extends State<DonationHistory>{
   @override
   void initState() {
-    getDonationHistory();
+    getToken();
     super.initState();
   }
+
+  getToken() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    token = sharedPreferences.getString('token');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -152,6 +160,7 @@ class DonationHistoryState extends State<DonationHistory>{
   }
 
   Future<List<DonationHistoryModel>> getDonationHistory() async{
+    print("getdh");
     try{
         final result = await InternetAddress.lookup('google.com');
 
@@ -161,7 +170,7 @@ class DonationHistoryState extends State<DonationHistory>{
           response = await http.get(
             "https://agari-api.herokuapp.com/donation/my",
             headers: {
-              "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJiaW4iLCJzdWIiOiI1ZWEzMjk4NGIzNDQ2MTAwMTdmZjI1OWUiLCJpYXQiOjE1ODg2ODMzODE0NzB9.oXLix8lzlVNknYrpMRSy2FBgZRr551gq3knJxWtneLg"
+              "Authorization": token
             }
           );
 
@@ -171,7 +180,6 @@ class DonationHistoryState extends State<DonationHistory>{
               return DonationHistoryModel.fromJson(json);
             }
           ).toList();
-
           return listOfHistory;
         }
     }

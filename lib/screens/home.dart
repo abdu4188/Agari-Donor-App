@@ -10,13 +10,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget{
   final String id;
-  final String token;
 
-  const HomeScreen({Key key, this.id, this.token}) : super(key: key);
+  const HomeScreen({Key key, this.id}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return HomeState(id, token);
+    return HomeState(id);
   } 
 }
 
@@ -33,14 +32,15 @@ enum PermissionGroup {
 
 class HomeState extends State<HomeScreen>{
   final String userId;
-  final String token;
+  String token;
 
   Position _currentPosition;
 
-  HomeState(this.userId, this.token);
+  HomeState(this.userId);
   @override
   void initState() {
     checkLogin();
+    getToken();
     getPackages();
     super.initState();
   }
@@ -123,6 +123,10 @@ class HomeState extends State<HomeScreen>{
     });
   }
 
+  getToken() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    token = sharedPreferences.getString('token');
+  }
 
   checkLogin() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -158,7 +162,7 @@ class HomeState extends State<HomeScreen>{
                     return Packages.fromJson(json);
                   }
                 ).toList();
-                
+
                 setState(() {
                   packagesLoaded = true;
                 });

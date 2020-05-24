@@ -205,7 +205,7 @@ class LoginState extends State<Login>{
               addTokenToSF(jsonResponse['token']);
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => HomeScreen(id: jsonResponse['user']['_id'], token: jsonResponse['token'],),
+                  builder: (context) => HomeScreen(id: jsonResponse['user']['_id']),
                 )
               );
             }

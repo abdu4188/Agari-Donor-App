@@ -20,7 +20,6 @@ class HomeScreen extends StatefulWidget{
   } 
 }
 
-var packages = [];
 bool packagesLoaded = false;
 enum PermissionGroup {
   /// Android: Fine and Coarse Location
@@ -137,7 +136,7 @@ class HomeState extends State<HomeScreen>{
     }
   }
 
-  getPackages() async{
+  Future<List<Packages>> getPackages() async{
     try{
         final result = await InternetAddress.lookup('google.com');
 
@@ -150,9 +149,9 @@ class HomeState extends State<HomeScreen>{
             }
           );
 
-          if(jsonDecode(response.body).length > 0){
-            if(this.mounted){
-              setState(() {
+          if(response.statusCode == 200){
+            if(jsonDecode(response.body).length > 0){
+              if(this.mounted){
                 final items = json.decode(response.body).cast<Map<String, dynamic>>();
                 List<Packages> listOfPackages = items.map<Packages>(
                   (json) {
@@ -160,13 +159,13 @@ class HomeState extends State<HomeScreen>{
                   }
                 ).toList();
                 
-                packages = listOfPackages;
-                print(packages);
-                packagesLoaded = true;
-              });
+                setState(() {
+                  packagesLoaded = true;
+                });
+                return listOfPackages;
+              }
             }
-          }
-          
+          }   
         }
     }
     on SocketException catch (_) {
@@ -224,137 +223,147 @@ class HomeState extends State<HomeScreen>{
                   child: Container(
                     margin: EdgeInsets.symmetric(vertical: 20.0),
                     height: 245.0,
-                    child: ListView.separated(
-                      padding: EdgeInsets.only(left: 20, right: 20),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: packages.length,
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          width: 10,
-                        );
-                      },
-                      itemBuilder: (BuildContext context, int index){
-                        return GestureDetector(
-                          onTap: () => {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => PackageDetail(),
-                                settings: RouteSettings(
-                                  arguments: packages[index]
-                                )
-                              )
-                            )
-                          },
-                          child: Container(
-                            width: 250,
-                            child: Stack(
-                              children: <Widget>[
-                                Text(
-                                  packages[index]['name'],
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 23,
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 20,
-                                  child: SizedBox(
-                                    width: 200,
-                                    height: 230,
-                                    child: Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15)
-                                      ),
-                                      color: Color(int.parse('0xff00838f')),
-                                      child: Stack(
-                                        children: <Widget>[
-                                          Container(
-                                            padding: EdgeInsets.all(17),
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Colors.white
-                                            ),
-                                            child: Text(
-                                              "200 birr",
-                                              style: TextStyle(
-                                                color: Colors.green
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                    child: FutureBuilder<List<Packages>>(
+                      future: getPackages(),
+                      builder: (context, snapshot){
+                        if(!snapshot.hasData){
+                          return Center(child: CircularProgressIndicator());
+                        }
+                        else{
+                          return ListView.separated(
+                            padding: EdgeInsets.only(left: 20, right: 20),
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: snapshot.data.length,
+                            separatorBuilder: (BuildContext context, int index) {
+                              return SizedBox(
+                                width: 10,
+                              );
+                            },
+                            itemBuilder: (BuildContext context, int index){
+                              return GestureDetector(
+                                onTap: () => {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => PackageDetail(),
+                                      settings: RouteSettings(
+                                        arguments: snapshot.data[index]
                                       )
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  bottom: 0,
-                                  right: 50,
-                                  child: Container(
-                                    width: 80,
-                                    margin: EdgeInsets.only(left: 100, top: 100, bottom: 50,right: 100),
-                                    padding: EdgeInsets.only(top: 60),
-                                    height: 150,
-                                    child: ListView.builder(
-                                     itemCount: packages[index]['details'].length,
-                                     itemBuilder: (BuildContext context, indext){
-                                       return Text(packages[index]['details'][indext],
+                                    )
+                                  )
+                                },
+                                child: Container(
+                                  width: 250,
+                                  child: Stack(
+                                    children: <Widget>[
+                                      Text(
+                                        snapshot.data[index].name,
                                         style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: 15,
+                                          fontSize: 23,
                                         ),
-                                      );
-                                     }, 
-                                    )
+                                      ),
+                                      Positioned(
+                                        top: 20,
+                                        child: SizedBox(
+                                          width: 200,
+                                          height: 230,
+                                          child: Card(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(15)
+                                            ),
+                                            color: Color(int.parse('0xff00838f')),
+                                            child: Stack(
+                                              children: <Widget>[
+                                                Container(
+                                                  padding: EdgeInsets.all(17),
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: Colors.white
+                                                  ),
+                                                  child: Text(
+                                                    "200 birr",
+                                                    style: TextStyle(
+                                                      color: Colors.green
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: 0,
+                                        right: 50,
+                                        child: Container(
+                                          width: 80,
+                                          margin: EdgeInsets.only(left: 100, top: 100, bottom: 50,right: 100),
+                                          padding: EdgeInsets.only(top: 60),
+                                          height: 150,
+                                          child: ListView.builder(
+                                          itemCount: snapshot.data[index].details.length,
+                                          itemBuilder: (BuildContext context, indext){
+                                            return Text(snapshot.data[index].details[indext],
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15,
+                                              ),
+                                            );
+                                          }, 
+                                          )
+                                        ),
+                                      ),
+                                      Positioned(
+                                        left: 150,
+                                        child: Image.asset(
+                                          'assets/images/flour.jpg',
+                                          width: 100,
+                                          height: 200,
+                                        ),
+                                      ),
+                                      Positioned(
+                                        left: 120,
+                                        top: 80,
+                                        child: Image.asset(
+                                          'assets/images/oil.jpg',
+                                          width: 70,
+                                          height: 100,
+                                        ),
+                                      ),
+                                      Positioned(
+                                        top: 190,
+                                        left: 60,
+                                        child: RaisedButton(
+                                        elevation: 0,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(18)
+                                        ),
+                                        color:  Color(int.parse('0xff3fa1a9')),
+                                        child: Text(
+                                          "Donate",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20
+                                          ),
+                                        ),
+                                        onPressed: () => {
+                                          showDialog(
+                                            context: context,
+                                            child: DonationType(snapshot.data[index].sId)
+                                          )
+                                        },
+                                      ),
+                                      )
+                                    ],
                                   ),
                                 ),
-                                Positioned(
-                                  left: 150,
-                                  child: Image.asset(
-                                    'assets/images/flour.jpg',
-                                    width: 100,
-                                    height: 200,
-                                  ),
-                                ),
-                                Positioned(
-                                  left: 120,
-                                  top: 80,
-                                  child: Image.asset(
-                                    'assets/images/oil.jpg',
-                                    width: 70,
-                                    height: 100,
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 190,
-                                  left: 60,
-                                  child: RaisedButton(
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18)
-                                  ),
-                                  color:  Color(int.parse('0xff3fa1a9')),
-                                  child: Text(
-                                    "Donate",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20
-                                    ),
-                                  ),
-                                  onPressed: () => {
-                                    showDialog(
-                                      context: context,
-                                      child: DonationType(packages[index]._id)
-                                    )
-                                  },
-                                ),
-                                )
-                              ],
-                            ),
-                          ),
-                        );                      
-                      }, 
-                    ),
+                              );                      
+                            }, 
+                          );
+                        }
+                      },
+                    )
                   ),
                 ),
               ],

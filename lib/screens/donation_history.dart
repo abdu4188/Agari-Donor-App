@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:agari_doner/models/donationHistory.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -154,8 +155,14 @@ class DonationHistoryState extends State<DonationHistory>{
             }
           );
 
-          donationHistory = jsonDecode(response.body);
-          print(donationHistory);
+          final history = jsonDecode(response.body).cast<Map<String, dynamic>>();
+          List<DonationHistoryModel> listOfHistory = history.map<DonationHistoryModel>(
+            (json) {
+              return DonationHistoryModel.fromJson(json);
+            }
+          ).toList();
+
+          donationHistory = listOfHistory;
         }
     }
     on SocketException catch (_) {
